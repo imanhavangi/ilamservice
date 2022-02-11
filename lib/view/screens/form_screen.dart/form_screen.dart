@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FormScreen extends StatefulWidget {
-  const FormScreen({Key? key}) : super(key: key);
+  final String title;
+
+  const FormScreen({required this.title, Key? key}) : super(key: key);
 
   @override
   _FormScreenState createState() => _FormScreenState();
@@ -11,9 +13,17 @@ class _FormScreenState extends State<FormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xff4e4f51),
+        centerTitle: true,
+        title: Text(
+          widget.title,
+          style: const TextStyle(fontFamily: 'iransans'),
+        ),
+      ),
       body: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
@@ -25,17 +35,17 @@ class _FormScreenState extends State<FormScreen> {
         child: SingleChildScrollView(
             child: Column(
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 30, right: 30),
+              padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
                 textDirection: TextDirection.rtl,
                 decoration: const InputDecoration(
                   hintTextDirection: TextDirection.rtl,
                   prefixIcon: Icon(
-                    Icons.phone,
+                    Icons.title,
                     // color: Color(0xffc7c8ca),
                     color: Colors.white,
                   ),
@@ -46,17 +56,17 @@ class _FormScreenState extends State<FormScreen> {
                 // keyboardType: TextInputType.phone,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 30, right: 30),
+              padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
                 textDirection: TextDirection.rtl,
                 decoration: const InputDecoration(
                   hintTextDirection: TextDirection.rtl,
                   prefixIcon: Icon(
-                    Icons.phone,
+                    Icons.details,
                     // color: Color(0xffc7c8ca),
                     color: Colors.white,
                   ),
@@ -67,17 +77,17 @@ class _FormScreenState extends State<FormScreen> {
                 // keyboardType: TextInputType.phone,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 30, right: 30),
+              padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
                 textDirection: TextDirection.rtl,
                 decoration: const InputDecoration(
                   hintTextDirection: TextDirection.rtl,
                   prefixIcon: Icon(
-                    Icons.phone,
+                    Icons.branding_watermark,
                     // color: Color(0xffc7c8ca),
                     color: Colors.white,
                   ),
@@ -88,17 +98,17 @@ class _FormScreenState extends State<FormScreen> {
                 // keyboardType: TextInputType.phone,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 30, right: 30),
+              padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
                 textDirection: TextDirection.rtl,
                 decoration: const InputDecoration(
                   hintTextDirection: TextDirection.rtl,
                   prefixIcon: Icon(
-                    Icons.phone,
+                    Icons.location_on,
                     // color: Color(0xffc7c8ca),
                     color: Colors.white,
                   ),
@@ -109,7 +119,7 @@ class _FormScreenState extends State<FormScreen> {
                 // keyboardType: TextInputType.phone,
               ),
             ),
-            TextField(
+            const TextField(
               maxLines: 1,
               // controller: price1,
               // onChanged: (value) async {
@@ -126,6 +136,15 @@ class _FormScreenState extends State<FormScreen> {
                 // hintText: 'Enter Your Name'
               ),
             ),
+            Center(
+                child: ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.teal),
+              onPressed: () {},
+              child: const Text(
+                'ثبت درخواست',
+                style: TextStyle(fontFamily: 'iransans', fontSize: 20),
+              ),
+            )),
           ],
         )),
       ),
