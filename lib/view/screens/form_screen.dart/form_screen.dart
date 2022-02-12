@@ -10,6 +10,11 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
+  TextEditingController name = TextEditingController();
+  TextEditingController title = TextEditingController();
+  TextEditingController description = TextEditingController();
+  TextEditingController brand = TextEditingController();
+  TextEditingController address = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +46,33 @@ class _FormScreenState extends State<FormScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
+                controller: name,
+                textDirection: TextDirection.rtl,
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: 'iransans'),
+                decoration: const InputDecoration(
+                  hintTextDirection: TextDirection.rtl,
+                  prefixIcon: Icon(
+                    Icons.account_circle_rounded,
+                    // color: Color(0xffc7c8ca),
+                    color: Colors.white,
+                  ),
+                  hintText: 'نام و نام خانوادگی',
+                  hintStyle:
+                      TextStyle(fontFamily: 'iransans', color: Colors.white),
+                ),
+                // keyboardType: TextInputType.phone,
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: TextFormField(
+                controller: title,
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: 'iransans'),
                 textDirection: TextDirection.rtl,
                 decoration: const InputDecoration(
                   hintTextDirection: TextDirection.rtl,
@@ -62,6 +94,9 @@ class _FormScreenState extends State<FormScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
+                controller: description,
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: 'iransans'),
                 textDirection: TextDirection.rtl,
                 decoration: const InputDecoration(
                   hintTextDirection: TextDirection.rtl,
@@ -83,6 +118,9 @@ class _FormScreenState extends State<FormScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
+                controller: brand,
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: 'iransans'),
                 textDirection: TextDirection.rtl,
                 decoration: const InputDecoration(
                   hintTextDirection: TextDirection.rtl,
@@ -104,6 +142,9 @@ class _FormScreenState extends State<FormScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
+                controller: address,
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: 'iransans'),
                 textDirection: TextDirection.rtl,
                 decoration: const InputDecoration(
                   hintTextDirection: TextDirection.rtl,
@@ -119,26 +160,12 @@ class _FormScreenState extends State<FormScreen> {
                 // keyboardType: TextInputType.phone,
               ),
             ),
-            const TextField(
-              maxLines: 1,
-              // controller: price1,
-              // onChanged: (value) async {
-              //   print(now);
-              //   value != ""
-              //       ? price2.text = (double.parse(value) * now).toString()
-              //       : price2.text = "";
-              // },
-              // color: Colors.black,
-              style: TextStyle(fontSize: 20),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                // labelText: 'Enter Name',
-                // hintText: 'Enter Your Name'
-              ),
+            const SizedBox(
+              height: 30,
             ),
             Center(
                 child: ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Colors.teal),
+              style: ElevatedButton.styleFrom(primary: const Color(0xfff04a24)),
               onPressed: () {},
               child: const Text(
                 'ثبت درخواست',

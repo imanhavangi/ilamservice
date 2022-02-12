@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
+import 'package:ilamservice/view/base/service_circlebutton.dart';
 import 'package:ilamservice/view/screens/form_screen.dart/form_screen.dart';
+import 'package:ilamservice/view/screens/profile/profile_screen.dart';
 import 'package:ilamservice/view/screens/services/widget/service_button.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -29,7 +31,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
       unselectedItemColor: Colors.grey,
       items: const [
         BottomNavigationBarItem(
-            icon: Icon(Icons.construction),
+            icon: Icon(Icons.build),
             label: 'تعمیرات',
             backgroundColor: Color(0xff4e4f51)),
         BottomNavigationBarItem(
@@ -37,8 +39,12 @@ class _ServicesScreenState extends State<ServicesScreen> {
             label: 'فروشگاه',
             backgroundColor: Color(0xff4e4f51)),
         BottomNavigationBarItem(
+            icon: Icon(Icons.construction),
+            label: 'خدماتی',
+            backgroundColor: Color(0xff4e4f51)),
+        BottomNavigationBarItem(
             icon: Icon(Icons.apartment),
-            label: 'خدمات ساختمانی',
+            label: 'ساختمانی',
             backgroundColor: Color(0xff4e4f51)),
         BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
@@ -92,33 +98,33 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     ["موتورخانه", "assets/powerhouse.png"],
                   ]),
                   BuildRow([
-                    ["چرخ گوشت", "assets/piping.png"],
-                    ["آبمیوه گیر", "assets/repairs.png"],
-                    ["سبزی خردکن", "assets/repairs.png"],
+                    ["چرخ گوشت", "assets/meatgrinder.png"],
+                    ["آبمیوه گیر", "assets/juicer.png"],
+                    ["سبزی خردکن", "assets/vegtable.png"],
                   ]),
                   BuildRow([
-                    ["گوشت کوب", "assets/piping.png"],
-                    ["زودپر و بخارپز", "assets/repairs.png"],
-                    ["آبجوش کن", "assets/repairs.png"],
+                    ["گوشت کوب", "assets/masher.png"],
+                    ["زودپر و بخارپز", "assets/steamer.png"],
+                    ["آبجوش کن", "assets/waterboiler.png"],
                   ]),
                   BuildRow([
-                    ["رشته و رنده کن", "assets/piping.png"],
-                    ["همزن معمولی", "assets/repairs.png"],
-                    ["مخلوط کن سرعتی", "assets/repairs.png"],
+                    ["رشته و رنده کن", "assets/grater.png"],
+                    ["همزن معمولی", "assets/agitator.png"],
+                    ["مخلوط کن سرعتی", "assets/mixer.png"],
                   ]),
                   BuildRow([
-                    ["تُستِر", "assets/piping.png"],
-                    ["ساندویچ ساز", "assets/repairs.png"],
-                    ["قهوه جوش", "assets/repairs.png"],
+                    ["تُستِر", "assets/toaster.png"],
+                    ["ساندویچ ساز", "assets/sandwich.png"],
+                    ["قهوه جوش", "assets/coffee.png"],
                   ]),
                   BuildRow([
-                    ["سماور برقی", "assets/piping.png"],
-                    ["سرخ کن", "assets/repairs.png"],
-                    ["چای ساز", "assets/repairs.png"],
+                    ["سماور برقی", "assets/samovars.png"],
+                    ["سرخ کن", "assets/fryer.png"],
+                    ["چای ساز", "assets/tea.png"],
                   ]),
                   BuildRow([
-                    ["پیکور برقی", "assets/piping.png"],
-                    ["سیم پیچی", "assets/repairs.png"],
+                    ["پیکور برقی", "assets/pikor.png"],
+                    ["سیم پیچی", "assets/wiring.png"],
                   ]),
                   // BuildRow([
                   //   ["", "assets/piping.png"],
@@ -158,11 +164,98 @@ class _ServicesScreenState extends State<ServicesScreen> {
       ),
       bottomNavigationBar: _bottomNavigationBar,
     );
+    Scaffold _s4 = Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+              Color(0xff4e4f51),
+              Color(0xff808186),
+              Color(0xff4e4f51),
+            ])),
+        child: Column(
+          children: [
+            Stack(children: [
+              Container(
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                color: const Color(0xfff04a24),
+              ),
+              Center(
+                  child: Padding(
+                padding: const EdgeInsets.only(top: 150),
+                child: ServiceCircleButton(image: "assets/profile.png"),
+              )),
+            ]),
+            const SizedBox(
+              height: 40,
+            ),
+            const Text('موبایل: ۰۹۲۱۵۱۴۷۹۰۲',
+                style: TextStyle(
+                    fontFamily: 'iransans',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                    fontSize: 22)),
+            const SizedBox(
+              height: 60,
+            ),
+            OutlinedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                side: const BorderSide(
+                  width: 1.0,
+                  color: Colors.white,
+                ),
+                primary: Colors.black54,
+                enableFeedback: true,
+              ),
+              child: Column(
+                children: const [
+                  SizedBox(
+                    height: 3,
+                  ),
+                  Icon(
+                    Icons.logout,
+                    color: Colors.orange,
+                  ),
+                  Text(
+                    'خروج از حساب کاربری',
+                    style:
+                        TextStyle(color: Colors.orange, fontFamily: 'iransans'),
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Center(
+              child: SizedBox(
+                height: 150,
+                child: Image.asset("assets/icon.png"),
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: _bottomNavigationBar,
+    );
     switch (_selectedIndex) {
       case 0:
         return _s0;
       case 1:
         return _s1;
+      case 2:
+        return _s1;
+      case 3:
+        return _s1;
+      case 4:
+        return _s4;
       default:
         return _s1;
     }

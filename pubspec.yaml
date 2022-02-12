@@ -42,6 +42,7 @@ dependencies:
   velocity_x: ^3.4.0
   http: ^0.13.4
   
+  
 
 dev_dependencies:
   flutter_test:
