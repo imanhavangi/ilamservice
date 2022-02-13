@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ilamservice/data/database_services.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class FormScreen extends StatefulWidget {
-  final String title;
+  final String service;
 
-  const FormScreen({required this.title, Key? key}) : super(key: key);
+  const FormScreen({required this.service, Key? key}) : super(key: key);
 
   @override
   _FormScreenState createState() => _FormScreenState();
@@ -22,7 +24,7 @@ class _FormScreenState extends State<FormScreen> {
         backgroundColor: const Color(0xff4e4f51),
         centerTitle: true,
         title: Text(
-          widget.title,
+          widget.service,
           style: const TextStyle(fontFamily: 'iransans'),
         ),
       ),
@@ -166,7 +168,17 @@ class _FormScreenState extends State<FormScreen> {
             Center(
                 child: ElevatedButton(
               style: ElevatedButton.styleFrom(primary: const Color(0xfff04a24)),
-              onPressed: () {},
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+                DatabaseServices.requestService(
+                    service: widget.service,
+                    title: title.text,
+                    description: description.text,
+                    name: name.text,
+                    address: address.text,
+                    brand: brand.text);
+                VxToast.show(context, msg: 'خدمت با موفقیت ثبت شد');
+              },
               child: const Text(
                 'ثبت درخواست',
                 style: TextStyle(fontFamily: 'iransans', fontSize: 20),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/view/screens/otp/otp_screen.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class PhoneScreen extends StatefulWidget {
   const PhoneScreen({Key? key}) : super(key: key);
@@ -9,11 +11,13 @@ class PhoneScreen extends StatefulWidget {
 }
 
 class _PhoneScreenState extends State<PhoneScreen> {
+  TextEditingController mobile = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff424242),
-      body: Column(
+      body: SingleChildScrollView(
+          child: Column(
         children: [
           Stack(
             children: [
@@ -43,6 +47,9 @@ class _PhoneScreenState extends State<PhoneScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 30, right: 30),
                 child: TextFormField(
+                  controller: mobile,
+                  style: const TextStyle(
+                      fontFamily: 'iransans', color: Colors.white),
                   textDirection: TextDirection.rtl,
                   decoration: const InputDecoration(
                     hintTextDirection: TextDirection.rtl,
@@ -58,28 +65,40 @@ class _PhoneScreenState extends State<PhoneScreen> {
                   keyboardType: TextInputType.phone,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OTPScreen()),
-                    );
+                    if (mobile.text.length == 11) {
+                      FocusScope.of(context).unfocus();
+                      DatabaseServices.sms(phoneNumber: mobile.text);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OTPScreen(
+                                  phoneNumber: mobile.text,
+                                )),
+                      );
+                    } else {
+                      FocusScope.of(context).unfocus();
+                      VxToast.show(context,
+                          msg: "شماره باید ۱۱ رقمی باشد و با ۰۹ شروع شود");
+                    }
                   },
-                  child: Text(
+                  child: const Text(
                     'ارسال کد تایید',
                     style: TextStyle(
                         fontWeight: FontWeight.w800,
+                        color: Colors.white,
                         fontSize: 17,
                         fontFamily: 'iransans'),
                   ),
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(MediaQuery.of(context).size.width, 50),
-                    primary: Color(0xfff04a24),
+                    primary: const Color(0xfff04a24),
                     onPrimary: Colors.white,
                   ),
                 ),
@@ -104,7 +123,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
             ],
           ),
         ],
-      ),
+      )),
     );
   }
 

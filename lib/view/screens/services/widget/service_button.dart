@@ -12,8 +12,10 @@ class ServiceButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => FormScreen(title: text)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => FormScreen(service: text)));
         },
         child: SizedBox(
           height: MediaQuery.of(context).size.width / 2.2,

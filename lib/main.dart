@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/view/screens/dashboard_screen.dart';
 import 'package:ilamservice/view/screens/form_screen.dart/form_screen.dart';
+import 'package:ilamservice/view/screens/otp/otp_screen.dart';
 import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/services/services_screen.dart';
+import 'package:ilamservice/view/screens/types/types_screen.dart';
 
-// import 'sol/screens/login_Screen.dart';
-
-void main() {
+bool loggedIn = false;
+String phoneNumber = '';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  loggedIn = await DatabaseServices.isLoggedIn();
+  phoneNumber = await DatabaseServices.getPhone();
   runApp(const MyApp());
 }
 
@@ -40,7 +46,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       // theme: ThemeData(appBarTheme: AppBarTheme(color: Colors.transparent,)),
       title: 'Ilam Service',
-      home: ServicesScreen(),
+      home: (loggedIn)
+          ? TypesScreen(
+              phoneNum: phoneNumber,
+            )
+          : const PhoneScreen(),
     );
   }
 }

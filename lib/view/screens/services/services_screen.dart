@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/view/base/service_circlebutton.dart';
 import 'package:ilamservice/view/screens/form_screen.dart/form_screen.dart';
+import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/profile/profile_screen.dart';
 import 'package:ilamservice/view/screens/services/widget/service_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key? key}) : super(key: key);
@@ -53,94 +55,115 @@ class _ServicesScreenState extends State<ServicesScreen> {
       ],
     );
     Scaffold _s0 = Scaffold(
-        // backgroundColor: Colors.black87,
-        // appBar: AppBar(),
-        body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                Color(0xff4e4f51),
-                Color(0xff808186),
-                Color(0xff4e4f51),
-              ])),
-          child: SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                children: <Widget>[
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  BuildRow([
-                    ["یخچال", "assets/refrigerator.png"],
-                    ["آبگرمکن", "assets/waterheater.png"],
-                    ["پکیج", "assets/radiator.png"],
-                  ]),
-                  BuildRow([
-                    ["کولر", "assets/cooler.png"],
-                    ["اجاق گاز", "assets/oven.png"],
-                    ["هود", "assets/hood.png"],
-                  ]),
-                  BuildRow([
-                    ["لباسشویی", "assets/laundry.png"],
-                    ["ظرفشویی", "assets/dishwasher.png"],
-                    ["جارو برقی", "assets/cleaner.png"],
-                  ]),
-                  BuildRow([
-                    ["دینام کولر", "assets/DynamoCooler.png"],
-                    ["آسانسور", "assets/Elevator.png"],
-                    ["بالابر", "assets/lift.png"],
-                  ]),
-                  BuildRow([
-                    ["لوله کشی", "assets/piping.png"],
-                    ["پمپ آب", "assets/waterpump.png"],
-                    ["موتورخانه", "assets/powerhouse.png"],
-                  ]),
-                  BuildRow([
-                    ["چرخ گوشت", "assets/meatgrinder.png"],
-                    ["آبمیوه گیر", "assets/juicer.png"],
-                    ["سبزی خردکن", "assets/vegtable.png"],
-                  ]),
-                  BuildRow([
-                    ["گوشت کوب", "assets/masher.png"],
-                    ["زودپر و بخارپز", "assets/steamer.png"],
-                    ["آبجوش کن", "assets/waterboiler.png"],
-                  ]),
-                  BuildRow([
-                    ["رشته و رنده کن", "assets/grater.png"],
-                    ["همزن معمولی", "assets/agitator.png"],
-                    ["مخلوط کن سرعتی", "assets/mixer.png"],
-                  ]),
-                  BuildRow([
-                    ["تُستِر", "assets/toaster.png"],
-                    ["ساندویچ ساز", "assets/sandwich.png"],
-                    ["قهوه جوش", "assets/coffee.png"],
-                  ]),
-                  BuildRow([
-                    ["سماور برقی", "assets/samovars.png"],
-                    ["سرخ کن", "assets/fryer.png"],
-                    ["چای ساز", "assets/tea.png"],
-                  ]),
-                  BuildRow([
-                    ["پیکور برقی", "assets/pikor.png"],
-                    ["سیم پیچی", "assets/wiring.png"],
-                  ]),
-                  // BuildRow([
-                  //   ["", "assets/piping.png"],
-                  //   ["", "assets/repairs.png"],
-                  //   ["", "assets/repairs.png"],
-                  // ]),
-                ],
-              ),
+      // backgroundColor: Colors.black87,
+      // appBar: AppBar(),
+      body: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+              Color(0xff4e4f51),
+              Color(0xff808186),
+              Color(0xff4e4f51),
+            ])),
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  height: 30,
+                ),
+                BuildRow([
+                  ["یخچال", "assets/refrigerator.png"],
+                  ["آبگرمکن", "assets/waterheater.png"],
+                  ["پکیج", "assets/radiator.png"],
+                ]),
+                BuildRow([
+                  ["کولر", "assets/cooler.png"],
+                  ["اجاق گاز", "assets/oven.png"],
+                  ["هود", "assets/hood.png"],
+                ]),
+                BuildRow([
+                  ["لباسشویی", "assets/laundry.png"],
+                  ["ظرفشویی", "assets/dishwasher.png"],
+                  ["جارو برقی", "assets/cleaner.png"],
+                ]),
+                BuildRow([
+                  ["دینام کولر", "assets/DynamoCooler.png"],
+                  ["آسانسور", "assets/Elevator.png"],
+                  ["بالابر", "assets/lift.png"],
+                ]),
+                BuildRow([
+                  ["لوله کشی", "assets/piping.png"],
+                  ["پمپ آب", "assets/waterpump.png"],
+                  ["موتورخانه", "assets/powerhouse.png"],
+                ]),
+                BuildRow([
+                  ["چرخ گوشت", "assets/meatgrinder.png"],
+                  ["آبمیوه گیر", "assets/juicer.png"],
+                  ["سبزی خردکن", "assets/vegtable.png"],
+                ]),
+                BuildRow([
+                  ["گوشت کوب", "assets/masher.png"],
+                  ["زودپر و بخارپز", "assets/steamer.png"],
+                  ["آبجوش کن", "assets/waterboiler.png"],
+                ]),
+                BuildRow([
+                  ["رشته و رنده کن", "assets/grater.png"],
+                  ["همزن معمولی", "assets/agitator.png"],
+                  ["مخلوط کن سرعتی", "assets/mixer.png"],
+                ]),
+                BuildRow([
+                  ["تُستِر", "assets/toaster.png"],
+                  ["ساندویچ ساز", "assets/sandwich.png"],
+                  ["قهوه جوش", "assets/coffee.png"],
+                ]),
+                BuildRow([
+                  ["سماور برقی", "assets/samovars.png"],
+                  ["سرخ کن", "assets/fryer.png"],
+                  ["چای ساز", "assets/tea.png"],
+                ]),
+                BuildRow([
+                  ["پیکور برقی", "assets/pikor.png"],
+                  ["سیم پیچی", "assets/wiring.png"],
+                ]),
+                // BuildRow([
+                //   ["", "assets/piping.png"],
+                //   ["", "assets/repairs.png"],
+                //   ["", "assets/repairs.png"],
+                // ]),
+              ],
             ),
           ),
         ),
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     // print('adsf');
+      //     // String s = await DatabaseServices.sms(phoneNumber: '09215147902');
+      //     // print('afafdss');
+      //     // print(s);
 
-        // Color(0xff4e4f51),
-        //         Color(0xff808186),
-        //         Color(0xff4e4f51),
-        bottomNavigationBar: _bottomNavigationBar);
+      //     // String s = await DatabaseServices.login(code: '6843');
+      //     // print(s);
+
+      //     String s = await DatabaseServices.requestService(
+      //       service: 'سرویس یخچال',
+      //       title: 'یخچالم خرابع',
+      //       description: 'خرابه دیگه داش',
+      //       name: 'سجاد ضیائی',
+      //       address: 'وسط بیرجند',
+      //       brand: 'امرسان زیبا پیشرو مطمئن',
+      //     );
+      //     print(s);
+      // },
+      // ),
+      // Color(0xff4e4f51),
+      //         Color(0xff808186),
+      //         Color(0xff4e4f51),
+      // bottomNavigationBar: _bottomNavigationBar
+    );
     Scaffold _s1 = Scaffold(
       // backgroundColor: Colors.black87,
       // appBar: AppBar(),
@@ -162,7 +185,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _bottomNavigationBar,
+      // bottomNavigationBar: _bottomNavigationBar,
     );
     Scaffold _s4 = Scaffold(
       body: Container(
@@ -202,7 +225,16 @@ class _ServicesScreenState extends State<ServicesScreen> {
               height: 60,
             ),
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () async {
+                SharedPreferences preferences =
+                    await SharedPreferences.getInstance();
+                preferences.setString('mobile', '');
+                preferences.setString('token', '');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PhoneScreen()));
+              },
               style: ElevatedButton.styleFrom(
                 side: const BorderSide(
                   width: 1.0,
@@ -243,7 +275,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: _bottomNavigationBar,
+      // bottomNavigationBar: _bottomNavigationBar,
     );
     switch (_selectedIndex) {
       case 0:

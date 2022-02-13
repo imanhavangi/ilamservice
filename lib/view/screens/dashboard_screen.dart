@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:ilamservice/data/database_services.dart';
+import 'package:ilamservice/view/screens/future_screen.dart';
 import 'package:ilamservice/view/screens/profile/profile_screen.dart';
 import 'package:ilamservice/view/screens/services/services_screen.dart';
 
 class DashBoardScreen extends StatefulWidget {
-  const DashBoardScreen({Key? key}) : super(key: key);
-
+  final String phoneNum;
+  const DashBoardScreen({Key? key, required this.phoneNum}) : super(key: key);
   @override
-  _DashBoardScreenState createState() => _DashBoardScreenState();
+  _DashBoardScreenState createState() {
+    return _DashBoardScreenState();
+  }
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   int _currentIndex = 0;
-  List<Widget> dashBoardScreenList = [
-    ServicesScreen(),
-    ProfileScreen(),
-  ];
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> dashBoardScreenList = [
+      const ServicesScreen(),
+      const FutureScreen(),
+      const FutureScreen(),
+      const FutureScreen(),
+      ProfileScreen(
+        phoneNumber: widget.phoneNum,
+      ),
+    ];
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black87,
-        title: Center(
+        title: const Center(
             child: Text(
           "ایلام سرویس",
           style: TextStyle(fontFamily: "iransans", color: Color(0xfff04a24)),
@@ -38,39 +49,31 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         },
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.shifting,
-        selectedItemColor: Color(0xfff04a24),
+        selectedItemColor: const Color(0xfff04a24),
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
         showUnselectedLabels: false,
         items: const [
-          //1
           BottomNavigationBarItem(
-            backgroundColor: Colors.black87,
-            // icon: Image.asset('images/widgets/materialWidgets/mwAppStructureWidgets/BottomNavigation/home.png', height: 25, width: 25, color: appStore.iconSecondaryColor),
-            // activeIcon: Image.asset('images/widgets/materialWidgets/mwAppStructureWidgets/BottomNavigation/home_fill.png', height: 25, width: 25, color: appStore.iconColor),
-            icon: Icon(Icons.home),
-            label: 'خدمات',
-          ),
-          //2
+              icon: Icon(Icons.build),
+              label: 'تعمیرات',
+              backgroundColor: Color(0xff4e4f51)),
           BottomNavigationBarItem(
-            backgroundColor: Colors.black87,
-            // icon: Image.asset('images/widgets/materialWidgets/mwAppStructureWidgets/BottomNavigation/reel.png', height: 25, width: 25, color: appStore.iconSecondaryColor),
-            // activeIcon: Image.asset('images/widgets/materialWidgets/mwAppStructureWidgets/BottomNavigation/reel_fill.png', height: 25, width: 25, color: appStore.iconColor),
-            icon: Icon(Icons.person),
-            label: 'پروفایل',
-          ),
-          //3
-          // BottomNavigationBarItem(
-          //     // icon: Container(
-          //     //   decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: appStore.iconSecondaryColor!, width: 1)),
-          //     //   child: Image.asset('images/widgets/materialWidgets/mwAppStructureWidgets/BottomNavigation/profile1.png', height: 30, width: 30).cornerRadiusWithClipRRect(20),
-          //     // ),
-          //     // activeIcon: Container(
-          //     //   decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: appStore.iconColor!, width: 1)),
-          //     //   child: Image.asset('images/widgets/materialWidgets/mwAppStructureWidgets/BottomNavigation/profile1.png', height: 30, width: 30).cornerRadiusWithClipRRect(20),
-          //     // ),
-          //     icon: Icon(Icons.home),
-          //     label: 'Profile'),
+              icon: Icon(Icons.shopping_cart),
+              label: 'فروشگاه',
+              backgroundColor: Color(0xff4e4f51)),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.construction),
+              label: 'خدماتی',
+              backgroundColor: Color(0xff4e4f51)),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.apartment),
+              label: 'ساختمانی',
+              backgroundColor: Color(0xff4e4f51)),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              label: 'پروفایل',
+              backgroundColor: Color(0xff4e4f51)),
         ],
       ),
     );
