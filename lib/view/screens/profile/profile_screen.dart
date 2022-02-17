@@ -6,16 +6,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ProfileScreen extends StatefulWidget {
   final String phoneNumber;
   const ProfileScreen({Key? key, required this.phoneNumber}) : super(key: key);
-  
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.black87,
+        title: const Text(
+          "پروفایل",
+          style: TextStyle(fontFamily: "iransans", color: Color(0xfff04a24)),
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -43,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(
               height: 40,
             ),
-             Text('موبایل: ${widget.phoneNumber} '  ,
+            Text('موبایل: ${widget.phoneNumber} ',
                 style: const TextStyle(
                     fontFamily: 'iransans',
                     fontWeight: FontWeight.bold,
@@ -58,10 +65,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     await SharedPreferences.getInstance();
                 preferences.setString('mobile', '');
                 preferences.setString('token', '');
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PhoneScreen()));
+                () => Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const PhoneScreen()),
+                      ModalRoute.withName('/'),
+                    );
               },
               style: ElevatedButton.styleFrom(
                 side: const BorderSide(

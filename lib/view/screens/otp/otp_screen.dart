@@ -1,11 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ilamservice/data/database_services.dart';
-import 'package:ilamservice/main.dart';
-import 'package:ilamservice/view/screens/dashboard_screen.dart';
+
 import 'package:ilamservice/view/screens/phone/phone_screen.dart';
-import 'package:ilamservice/view/screens/services/services_screen.dart';
 import 'package:ilamservice/view/screens/types/types_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OTPScreen extends StatefulWidget {
   final String phoneNumber;
@@ -17,20 +19,26 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   TextEditingController code = TextEditingController();
+  String _code = "";
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xff424242),
+        backgroundColor: const Color(0xff424242),
         body: SingleChildScrollView(
           child: Column(
             children: [
               Stack(
                 children: [
-                  Container(
+                  SizedBox(
                       height: 400, child: topClip(MediaQuery.of(context).size)),
                   Center(
                       child: Container(
-                          padding: EdgeInsets.only(top: 130),
+                          padding: const EdgeInsets.only(top: 130),
                           child: const Text(
                             "ایلام سرویس",
                             style: TextStyle(
@@ -44,33 +52,59 @@ class _OTPScreenState extends State<OTPScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       height: 150,
                       child: Image.asset("assets/icon.png"),
                     ),
                   ),
-                  Container(
-                    // padding: EdgeInsets.only(left: 30, right: 30),
-                    width: 100,
-                    child: TextFormField(
-                      controller: code,
-                      style: const TextStyle(
-                          fontFamily: 'iransans', color: Colors.white),
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.rtl,
-                      // controller: emailController,
-                      decoration: const InputDecoration(
-                        // contentPadding: EdgeInsets.zero,
-                        hintTextDirection: TextDirection.rtl,
-                        // prefixIcon: Icon(Icons.phone),
-                        hintText: 'کد تایید',
-                        hintStyle: TextStyle(
-                            fontFamily: 'iransans', color: Color(0xffc7c8ca)),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
                   SizedBox(
+                      // padding: EdgeInsets.only(left: 30, right: 30),
+                      width: 160,
+                      child: PinCodeTextField(
+                        controller: code,
+                        useHapticFeedback: true,
+                        hapticFeedbackTypes: HapticFeedbackTypes.vibrate,
+                        textStyle: const TextStyle(color: Colors.white),
+                        pinTheme: PinTheme(
+                          shape: PinCodeFieldShape.box,
+                          borderRadius: BorderRadius.circular(5),
+                          fieldHeight: 50,
+                          fieldWidth: 40,
+                          activeFillColor: Colors.white,
+                        ),
+                        length: 4,
+                        backgroundColor: Colors.transparent.withRed(100),
+                        cursorColor: Colors.white,
+                        obscureText: false,
+                        animationType: AnimationType.fade,
+                        animationDuration: const Duration(milliseconds: 300),
+                        onChanged: (value) {
+                          setState(() {
+                            code.text = value;
+                          });
+                        },
+                        appContext: context,
+                      )
+
+                      // child: TextFormField(
+                      //   controller: code,
+                      //   style: const TextStyle(
+                      //       fontFamily: 'iransans', color: Colors.white),
+                      //   textAlign: TextAlign.center,
+                      //   textDirection: TextDirection.rtl,
+                      //   // controller: emailController,
+                      //   decoration: const InputDecoration(
+                      //     // contentPadding: EdgeInsets.zero,
+                      //     hintTextDirection: TextDirection.rtl,
+                      //     // prefixIcon: Icon(Icons.phone),
+                      //     hintText: 'کد تایید',
+                      //     hintStyle: TextStyle(
+                      //         fontFamily: 'iransans', color: Color(0xffc7c8ca)),
+                      //   ),
+                      //   keyboardType: TextInputType.number,
+                      // ),
+                      ),
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -78,21 +112,27 @@ class _OTPScreenState extends State<OTPScreen> {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (code.text.length == 4) {
-                          FocusScope.of(context).unfocus();
-                          String s =
-                              await DatabaseServices.login(code: code.text);
-                          if (s == 'fail') {
+                          try {
+                            FocusScope.of(context).unfocus();
+
+                            String s =
+                                await DatabaseServices.login(code: code.text);
+                            if (s == 'fail') {
+                              VxToast.show(context,
+                                  msg:
+                                      'کد وارد شده صحیح نمی‌باشد لطفا دوباره تلاش کنید');
+                            } else {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TypesScreen(
+                                          phoneNum: widget.phoneNumber,
+                                        )),
+                              );
+                            }
+                          } catch (e) {
                             VxToast.show(context,
-                                msg:
-                                    'کد وارد شده صحیح نمی‌باشد لطفا دوباره تلاش کنید');
-                          } else {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TypesScreen(
-                                        phoneNum: widget.phoneNumber,
-                                      )),
-                            );
+                                msg: 'به اینترنت متصل نیستید');
                           }
                         } else {
                           FocusScope.of(context).unfocus();
@@ -110,7 +150,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       style: ElevatedButton.styleFrom(
                         minimumSize:
                             Size(MediaQuery.of(context).size.width, 50),
-                        primary: Color(0xfff04a24),
+                        primary: const Color(0xfff04a24),
                         onPrimary: Colors.white,
                       ),
                     ),
@@ -165,8 +205,8 @@ class _OTPScreenState extends State<OTPScreen> {
         height: size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-            Color(0xfff04a24),
-            Color(0xfff04a24).withOpacity(0.8),
+            const Color(0xfff04a24),
+            const Color(0xfff04a24).withOpacity(0.8),
           ], begin: Alignment.topLeft),
         ),
       ),

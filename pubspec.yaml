@@ -42,6 +42,10 @@ dependencies:
   velocity_x: ^3.4.0
   http: ^0.13.4
   shared_preferences: ^2.0.13
+  accordion: ^2.1.2
+  pin_code_fields: ^7.3.0
+  font_awesome_flutter: ^9.2.0
+  url_launcher: ^6.0.20
   
   
 

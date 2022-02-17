@@ -45,7 +45,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 30, right: 30),
+                padding: const EdgeInsets.only(left: 30, right: 30),
                 child: TextFormField(
                   controller: mobile,
                   style: const TextStyle(
@@ -71,10 +71,10 @@ class _PhoneScreenState extends State<PhoneScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (mobile.text.length == 11) {
                       FocusScope.of(context).unfocus();
-                      DatabaseServices.sms(phoneNumber: mobile.text);
+
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

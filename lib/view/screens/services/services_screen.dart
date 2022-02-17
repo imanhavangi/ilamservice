@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/view/base/service_circlebutton.dart';
-import 'package:ilamservice/view/screens/form_screen.dart/form_screen.dart';
 import 'package:ilamservice/view/screens/phone/phone_screen.dart';
-import 'package:ilamservice/view/screens/profile/profile_screen.dart';
 import 'package:ilamservice/view/screens/services/widget/service_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -127,12 +124,43 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 BuildRow([
                   ["پیکور برقی", "assets/pikor.png"],
                   ["سیم پیچی", "assets/wiring.png"],
+                  ["بخاری و شومینه", "assets/fireplace.png"],
                 ]),
-                // BuildRow([
-                //   ["", "assets/piping.png"],
-                //   ["", "assets/repairs.png"],
-                //   ["", "assets/repairs.png"],
-                // ]),
+                BuildRow([
+                  ["تردمیل", "assets/treadmill.png"],
+                  ["سشوار", "assets/hairdryer.png"],
+                  ["رادیاتور", "assets/radi.png"],
+                ]),
+                BuildRow([
+                  ["فن کویل", "assets/coilfan.png"],
+                  ["چیلر", "assets/chiller.png"],
+                  ["نصب سینک", "assets/sink.png"],
+                ]),
+                BuildRow([
+                  ["کانال سازی", "assets/channelbuilding.png"],
+                  ["تصفیه آب", "assets/waterrefinery.png"],
+                  ["کنسول بازی", "assets/console.png"],
+                ]),
+                BuildRow([
+                  ["ریش تراش", "assets/shaver.png"],
+                  ["شیرآلات", "assets/valve.png"],
+                  ["فلاش تانک", "assets/flush.png"],
+                ]),
+                BuildRow([
+                  ["روشویی", "assets/washface.png"],
+                  ["بخارشور", "assets/steam.png"],
+                  ["فر", "assets/fer.png"],
+                ]),
+                BuildRow([
+                  ["تلوزیون", "assets/tv.png"],
+                  ["ساندبار و اسپیکر", "assets/speaker.png"],
+                  ["رادیو ضبط", "assets/radio.png"],
+                ]),
+                BuildRow([
+                  ["چرخ خیاطی", "assets/sewingmachine.png"],
+                  ["مبلمان", "assets/furniture.png"],
+                  ["غذاساز", "assets/foodprocessor.png"],
+                ]),
               ],
             ),
           ),
@@ -300,5 +328,17 @@ class _ServicesScreenState extends State<ServicesScreen> {
         children: [
           for (var t in data) ServiceButton(text: t[0], image: t[1]),
         ]);
+  }
+
+  Column shown(List<List> data) {
+    List<Row> rowList = [];
+    int i = 1;
+    for (; i < data.length / 3; i++) {
+      var subData = data.sublist(0, i * 3);
+      rowList.add(BuildRow(subData));
+    }
+    return Column(
+      children: rowList,
+    );
   }
 }

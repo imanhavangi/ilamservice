@@ -7,6 +7,7 @@ import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/services/services_screen.dart';
 import 'package:ilamservice/view/screens/types/types_screen.dart';
 
+// bool loggedIn = false;
 bool loggedIn = false;
 String phoneNumber = '';
 void main() async {
@@ -22,11 +23,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: (loggedIn) ? '/types' : '/',
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/': (context) => const PhoneScreen(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/types': (context) => TypesScreen(
+              phoneNum: phoneNumber,
+            ),
+      },
+
       title: 'Ilam Service',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Ilam Service Home'),
+      // home: const MyHomePage(title: 'Ilam Service Home'),
     );
   }
 }
@@ -43,14 +54,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       // theme: ThemeData(appBarTheme: AppBarTheme(color: Colors.transparent,)),
       title: 'Ilam Service',
-      home: (loggedIn)
-          ? TypesScreen(
-              phoneNum: phoneNumber,
-            )
-          : const PhoneScreen(),
+      // home: (loggedIn)
+      //     ? TypesScreen(
+      //         phoneNum: phoneNumber,
+      //       )
+      //     : const PhoneScreen(),
     );
   }
 }
