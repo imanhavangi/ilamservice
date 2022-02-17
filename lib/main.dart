@@ -7,8 +7,8 @@ import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/services/services_screen.dart';
 import 'package:ilamservice/view/screens/types/types_screen.dart';
 
-// bool loggedIn = false;
 bool loggedIn = false;
+// bool loggedIn = true;
 String phoneNumber = '';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
