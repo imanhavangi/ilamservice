@@ -74,7 +74,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                   onPressed: () async {
                     if (mobile.text.length == 11) {
                       FocusScope.of(context).unfocus();
-
+                      DatabaseServices.sms(phoneNumber: mobile.text);
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

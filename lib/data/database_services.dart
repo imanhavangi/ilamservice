@@ -11,6 +11,7 @@ class DatabaseServices {
       {required String phoneNumber, String requestType = 'login'}) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
+      // print(object)
       preferences.setString('mobile', phoneNumber);
       Dio dio = Dio();
 
