@@ -8,6 +8,7 @@ import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/types/types_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:flutter_verification_code/flutter_verification_code.dart';
 
 class OTPScreen extends StatefulWidget {
   final String phoneNumber;
@@ -20,6 +21,7 @@ class OTPScreen extends StatefulWidget {
 class _OTPScreenState extends State<OTPScreen> {
   TextEditingController code = TextEditingController();
   String _code = "";
+  bool _onEditing = true;
   @override
   void initState() {
     super.initState();
@@ -58,52 +60,86 @@ class _OTPScreenState extends State<OTPScreen> {
                     ),
                   ),
                   SizedBox(
-                      // padding: EdgeInsets.only(left: 30, right: 30),
-                      width: 160,
-                      child: PinCodeTextField(
-                        controller: code,
-                        useHapticFeedback: true,
-                        hapticFeedbackTypes: HapticFeedbackTypes.vibrate,
-                        textStyle: const TextStyle(color: Colors.white),
-                        pinTheme: PinTheme(
-                          shape: PinCodeFieldShape.box,
-                          borderRadius: BorderRadius.circular(5),
-                          fieldHeight: 50,
-                          fieldWidth: 40,
-                          activeFillColor: Colors.white,
-                        ),
-                        length: 4,
-                        backgroundColor: Colors.transparent.withRed(100),
-                        cursorColor: Colors.white,
-                        obscureText: false,
-                        animationType: AnimationType.fade,
-                        animationDuration: const Duration(milliseconds: 300),
-                        onChanged: (value) {
-                          setState(() {
-                            code.text = value;
-                          });
-                        },
-                        appContext: context,
-                      )
-
-                      // child: TextFormField(
-                      //   controller: code,
-                      //   style: const TextStyle(
-                      //       fontFamily: 'iransans', color: Colors.white),
-                      //   textAlign: TextAlign.center,
-                      //   textDirection: TextDirection.rtl,
-                      //   // controller: emailController,
-                      //   decoration: const InputDecoration(
-                      //     // contentPadding: EdgeInsets.zero,
-                      //     hintTextDirection: TextDirection.rtl,
-                      //     // prefixIcon: Icon(Icons.phone),
-                      //     hintText: 'کد تایید',
-                      //     hintStyle: TextStyle(
-                      //         fontFamily: 'iransans', color: Color(0xffc7c8ca)),
+                    // padding: EdgeInsets.only(left: 30, right: 30),
+                    // width: 120,
+                    // child: PinCodeTextField(
+                    //   controller: code,
+                    //   useHapticFeedback: true,
+                    //   hapticFeedbackTypes: HapticFeedbackTypes.vibrate,
+                    //   textStyle: const TextStyle(color: Colors.white),
+                    //   pinTheme: PinTheme(
+                    //     shape: PinCodeFieldShape.box,
+                    //     borderRadius: BorderRadius.circular(5),
+                    //     fieldHeight: 50,
+                    //     fieldWidth: 40,
+                    //     activeFillColor: Colors.white,
+                    //   ),
+                    //   length: 4,
+                    //   backgroundColor: Colors.transparent.withRed(100),
+                    //   cursorColor: Colors.white,
+                    //   obscureText: false,
+                    //   animationType: AnimationType.fade,
+                    //   animationDuration: const Duration(milliseconds: 300),
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       code.text = value;
+                    //     });
+                    //   },
+                    //   appContext: context,
+                    // )
+                    child: VerificationCode(
+                      itemSize: 40,
+                      textStyle: TextStyle(fontSize: 20.0, color: Colors.white),
+                      keyboardType: TextInputType.number,
+                      underlineColor: Colors
+                          .amber, // If this is null it will use primaryColor: Colors.red from Theme
+                      length: 4,
+                      cursorColor: Colors
+                          .blue, // If this is null it will default to the ambient
+                      // clearAll is NOT required, you can delete it
+                      // takes any widget, so you can implement your design
+                      // clearAll: Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Text(
+                      //     'clear all',
+                      //     style: TextStyle(
+                      //         fontSize: 14.0,
+                      //         decoration: TextDecoration.underline,
+                      //         color: Colors.blue[700]),
                       //   ),
-                      //   keyboardType: TextInputType.number,
                       // ),
-                      ),
+                      onCompleted: (String value) {
+                        setState(() {
+                          print(value);
+                          _code = value;
+                        });
+                      },
+                      onEditing: (bool value) {
+                        setState(() {
+                          _onEditing = value;
+                        });
+                        if (!_onEditing) FocusScope.of(context).unfocus();
+                      },
+                    ),
+
+                    // child: TextFormField(
+                    //   controller: code,
+                    //   style: const TextStyle(
+                    //       fontFamily: 'iransans', color: Colors.white),
+                    //   textAlign: TextAlign.center,
+                    //   textDirection: TextDirection.rtl,
+                    //   // controller: emailController,
+                    //   decoration: const InputDecoration(
+                    //     // contentPadding: EdgeInsets.zero,
+                    //     hintTextDirection: TextDirection.rtl,
+                    //     // prefixIcon: Icon(Icons.phone),
+                    //     hintText: 'کد تایید',
+                    //     hintStyle: TextStyle(
+                    //         fontFamily: 'iransans', color: Color(0xffc7c8ca)),
+                    //   ),
+                    //   keyboardType: TextInputType.number,
+                    // ),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -111,12 +147,13 @@ class _OTPScreenState extends State<OTPScreen> {
                     padding: const EdgeInsets.only(left: 30, right: 30),
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (code.text.length == 4) {
+                        if (_code.length == 4) {
                           try {
+                            print(_code);
                             FocusScope.of(context).unfocus();
 
                             String s =
-                                await DatabaseServices.login(code: code.text);
+                                await DatabaseServices.login(code: _code);
                             if (s == 'fail') {
                               VxToast.show(context,
                                   msg:
