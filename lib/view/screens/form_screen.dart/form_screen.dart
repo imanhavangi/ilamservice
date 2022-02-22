@@ -19,7 +19,7 @@ class _FormScreenState extends State<FormScreen> {
   TextEditingController description = TextEditingController();
   TextEditingController brand = TextEditingController();
   TextEditingController address = TextEditingController();
-  bool acceptRules = false;
+  // bool acceptRules = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,66 +168,67 @@ class _FormScreenState extends State<FormScreen> {
             const SizedBox(
               height: 30,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Checkbox(
-                    value: acceptRules,
-                    onChanged: (value) {
-                      setState(() {
-                        acceptRules = value!;
-                      });
-                    }),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: RichText(
-                    text: TextSpan(
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'iransans',
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: ' قوانین ',
-                            style: TextStyle(
-                              color: Colors.blue.shade200,
-                              fontFamily: 'iransans',
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const RulesScreen()));
-                              }),
-                        const TextSpan(
-                            text: 'را مطالعه نموده‌ام و آن‌ها را می‌پذیرم'),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 20, right: 20),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       Checkbox(
+            //           value: acceptRules,
+            //           onChanged: (value) {
+            //             setState(() {
+            //               acceptRules = value!;
+            //             });
+            //           }),
+            //       Directionality(
+            //         textDirection: TextDirection.rtl,
+            //         child: RichText(
+            //           text: TextSpan(
+            //             style: const TextStyle(
+            //               color: Colors.white,
+            //               fontFamily: 'iransans',
+            //             ),
+            //             children: <TextSpan>[
+            //               TextSpan(
+            //                   text: ' قوانین ',
+            //                   style: TextStyle(
+            //                     color: Colors.blue.shade200,
+            //                     fontFamily: 'iransans',
+            //                   ),
+            //                   recognizer: TapGestureRecognizer()
+            //                     ..onTap = () {
+            //                       Navigator.push(
+            //                           context,
+            //                           MaterialPageRoute(
+            //                               builder: (context) =>
+            //                                   const RulesScreen()));
+            //                     }),
+            //               const TextSpan(
+            //                   text: 'را مطالعه نموده‌ام و آن‌ها را می‌پذیرم'),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             const SizedBox(
               height: 30,
             ),
             Center(
                 child: ElevatedButton(
               style: ElevatedButton.styleFrom(primary: const Color(0xfff04a24)),
-              onPressed: !acceptRules
-                  ? null
-                  : () {
-                      FocusScope.of(context).unfocus();
-                      DatabaseServices.requestService(
-                          service: widget.service,
-                          title: title.text,
-                          description: description.text,
-                          name: name.text,
-                          address: address.text,
-                          brand: brand.text);
-                      VxToast.show(context, msg: 'خدمت با موفقیت ثبت شد');
-                    },
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+                DatabaseServices.requestService(
+                    service: widget.service,
+                    title: title.text,
+                    description: description.text,
+                    name: name.text,
+                    address: address.text,
+                    brand: brand.text);
+                VxToast.show(context, msg: 'خدمت با موفقیت ثبت شد');
+              },
               child: const Text(
                 'ثبت درخواست',
                 style: TextStyle(fontFamily: 'iransans', fontSize: 20),

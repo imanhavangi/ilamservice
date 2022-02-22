@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/view/screens/otp/otp_screen.dart';
+import 'package:ilamservice/view/screens/rules/rules_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class PhoneScreen extends StatefulWidget {
@@ -12,6 +14,7 @@ class PhoneScreen extends StatefulWidget {
 
 class _PhoneScreenState extends State<PhoneScreen> {
   TextEditingController mobile = TextEditingController();
+  bool acceptRules = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,25 +72,79 @@ class _PhoneScreenState extends State<PhoneScreen> {
                 height: 20,
               ),
               Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Checkbox(
+                        // activeColor: Colors.white,
+                        // shape: OutlinedBorder(side: BorderSide(color: Colors.white)),
+                        side: BorderSide(color: Colors.white, width: 2),
+                        // overlayColor: Colors.white,
+                        value: acceptRules,
+                        onChanged: (value) {
+                          setState(() {
+                            acceptRules = value!;
+                          });
+                        }),
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'iransans',
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: ' قوانین ',
+                                style: TextStyle(
+                                  color: Colors.blue.shade200,
+                                  fontFamily: 'iransans',
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const RulesScreen()));
+                                  }),
+                            const TextSpan(
+                                text: 'را مطالعه نموده‌ام و آن‌ها را می‌پذیرم'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30),
                 child: ElevatedButton(
-                  onPressed: () async {
-                    if (mobile.text.length == 11) {
-                      FocusScope.of(context).unfocus();
-                      DatabaseServices.sms(phoneNumber: mobile.text);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OTPScreen(
-                                  phoneNumber: mobile.text,
-                                )),
-                      );
-                    } else {
-                      FocusScope.of(context).unfocus();
-                      VxToast.show(context,
-                          msg: "شماره باید ۱۱ رقمی باشد و با ۰۹ شروع شود");
-                    }
-                  },
+                  onPressed: !acceptRules
+                      ? null
+                      : () async {
+                          if (mobile.text.length == 11) {
+                            FocusScope.of(context).unfocus();
+                            DatabaseServices.sms(phoneNumber: mobile.text);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OTPScreen(
+                                        phoneNumber: mobile.text,
+                                      )),
+                            );
+                          } else {
+                            FocusScope.of(context).unfocus();
+                            VxToast.show(context,
+                                msg:
+                                    "شماره باید ۱۱ رقمی باشد و با ۰۹ شروع شود");
+                          }
+                        },
                   child: const Text(
                     'ارسال کد تایید',
                     style: TextStyle(
