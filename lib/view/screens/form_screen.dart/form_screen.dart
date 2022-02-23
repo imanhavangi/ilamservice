@@ -218,17 +218,24 @@ class _FormScreenState extends State<FormScreen> {
             Center(
                 child: ElevatedButton(
               style: ElevatedButton.styleFrom(primary: const Color(0xfff04a24)),
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                DatabaseServices.requestService(
-                    service: widget.service,
-                    title: title.text,
-                    description: description.text,
-                    name: name.text,
-                    address: address.text,
-                    brand: brand.text);
-                VxToast.show(context, msg: 'خدمت با موفقیت ثبت شد');
-              },
+              onPressed:
+                  ((name.text == '' || title.text == '' || address.text == ''))
+                      ? () {
+                          VxToast.show(context,
+                              msg:
+                                  'مقادیر نام و نام خانوادگی، زمان ارسال تعمیر‌کار، و آدرس اجباری می‌باشند');
+                        }
+                      : () {
+                          FocusScope.of(context).unfocus();
+                          DatabaseServices.requestService(
+                              service: widget.service,
+                              title: title.text,
+                              description: description.text,
+                              name: name.text,
+                              address: address.text,
+                              brand: brand.text);
+                          VxToast.show(context, msg: 'خدمت با موفقیت ثبت شد');
+                        },
               child: const Text(
                 'ثبت درخواست',
                 style: TextStyle(fontFamily: 'iransans', fontSize: 20),

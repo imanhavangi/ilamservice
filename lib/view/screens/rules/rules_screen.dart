@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class RulesScreen extends StatelessWidget {
   const RulesScreen({Key? key}) : super(key: key);
@@ -25,10 +26,10 @@ class RulesScreen extends StatelessWidget {
                   Color(0xff808186),
                   Color(0xff4e4f51),
                 ])),
-            child: const SingleChildScrollView(
+            child: SingleChildScrollView(
               child: Directionality(
                 textDirection: TextDirection.rtl,
-                child: Text(
+                child: const Text(
                   """
 ﻿ماده ۱ - تعاریف و اصطلاحاتی که در این قوانین و مقررات به کار رفته است دارای معانی مشروح زیر است
 ۱-۱- مشتری: افرادی که در اپلیکیشن ایلام سرویس اعلام نیاز به خدمات کرده‌اند.
@@ -143,7 +144,7 @@ class RulesScreen extends StatelessWidget {
 ۴-۱۲- کاربر با عضویت در سرویس ایلام سرویس قصد و اراده خود را نسبت به پذیرش انعقاد هرگونه اقدام و عمل حقوقی از جمله عقود و معاملات از راه دور و از طریق سیستم رایانه‌ای و الکترونیکی اعلام می‌کند.
 """,
                   style: TextStyle(fontFamily: 'iransans', color: Colors.white),
-                ),
+                ).pLTRB(20, 0, 20, 0),
               ),
             )));
   }

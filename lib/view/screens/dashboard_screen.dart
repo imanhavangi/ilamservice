@@ -68,6 +68,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         builder: (context) => const AboutUsScreen()));
               },
             ),
+            const Divider(
+              color: Colors.white,
+              height: 12,
+            ),
             ListTile(
               title: const Directionality(
                 textDirection: TextDirection.rtl,
@@ -84,6 +88,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               phoneNumber: widget.phoneNum,
                             )));
               },
+            ),
+            const Divider(
+              color: Colors.white,
+              height: 12,
             ),
             ListTile(
               title: const Directionality(
@@ -107,6 +115,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 );
               },
             ),
+            const Divider(
+              color: Colors.white,
+              height: 12,
+            ),
           ],
         ),
       ),
@@ -115,7 +127,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const SearchScreen() ));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SearchScreen()));
               },
               icon: const Icon(Icons.search)),
         ],

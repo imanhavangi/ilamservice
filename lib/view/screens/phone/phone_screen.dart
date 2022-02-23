@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/view/screens/otp/otp_screen.dart';
+import 'package:ilamservice/view/screens/privacy_policy/privacy_policy_screen.dart';
 import 'package:ilamservice/view/screens/rules/rules_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -18,18 +19,18 @@ class _PhoneScreenState extends State<PhoneScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff424242),
+      backgroundColor: const Color(0xff424242),
       body: SingleChildScrollView(
           child: Column(
         children: [
           Stack(
             children: [
-              Container(
+              SizedBox(
                   height: 400, child: topClip(MediaQuery.of(context).size)),
               Center(
                   child: Container(
-                      padding: EdgeInsets.only(top: 130),
-                      child: Text(
+                      padding: const EdgeInsets.only(top: 130),
+                      child: const Text(
                         "ایلام سرویس",
                         style: TextStyle(
                             fontFamily: 'amirhafezi',
@@ -42,7 +43,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Center(
-                child: Container(
+                child: SizedBox(
                   height: 150,
                   child: Image.asset("assets/icon.png"),
                 ),
@@ -79,7 +80,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     Checkbox(
                         // activeColor: Colors.white,
                         // shape: OutlinedBorder(side: BorderSide(color: Colors.white)),
-                        side: BorderSide(color: Colors.white, width: 2),
+                        side: const BorderSide(color: Colors.white, width: 2),
                         // overlayColor: Colors.white,
                         value: acceptRules,
                         onChanged: (value) {
@@ -110,8 +111,23 @@ class _PhoneScreenState extends State<PhoneScreen> {
                                             builder: (context) =>
                                                 const RulesScreen()));
                                   }),
-                            const TextSpan(
-                                text: 'را مطالعه نموده‌ام و آن‌ها را می‌پذیرم'),
+                            const TextSpan(text: ' و '),
+                            TextSpan(
+                                text: ' سیاست نامه حریم خصوصی ',
+                                style: TextStyle(
+                                  color: Colors.blue.shade200,
+                                  fontFamily: 'iransans',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const PrivacyPolicysScreen()));
+                                  }),
+                            const TextSpan(text: 'را می‌پذیرم'),
                           ],
                         ),
                       ),
@@ -119,14 +135,18 @@ class _PhoneScreenState extends State<PhoneScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30),
                 child: ElevatedButton(
                   onPressed: !acceptRules
-                      ? null
+                      ? () {
+                          VxToast.show(context,
+                              msg:
+                                  'لطفا قوانین و حریم خصوصی را مطالعه کنید و آن‌ها را تایید کنید');
+                        }
                       : () async {
                           if (mobile.text.length == 11) {
                             FocusScope.of(context).unfocus();
@@ -155,7 +175,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
                   ),
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(MediaQuery.of(context).size.width, 50),
-                    primary: const Color(0xfff04a24),
+                    primary:
+                        acceptRules ? const Color(0xfff04a24) : Colors.grey,
                     onPrimary: Colors.white,
                   ),
                 ),
@@ -191,8 +212,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
         height: size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-            Color(0xfff04a24),
-            Color(0xfff04a24).withOpacity(0.8),
+            const Color(0xfff04a24),
+            const Color(0xfff04a24).withOpacity(0.8),
           ], begin: Alignment.topLeft),
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ilamservice/view/screens/about_us/widgets/card_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({Key? key}) : super(key: key);
@@ -30,9 +31,9 @@ class AboutUsScreen extends StatelessWidget {
             ])),
         child: SingleChildScrollView(
           child: Column(children: [
-            const Directionality(
+            Directionality(
               textDirection: TextDirection.rtl,
-              child: Text(
+              child: const Text(
                 """ایلام سرویس یکی از محصولات پلتفرمی شرکت گرماسازان پشتکوه زاگرس است که در سال1400 هجری شمسی،  تاسیس شد.
 ایلام سرویس این امکان را به کاربران خود می دهد تا هر خدمتی را که در منزل مورد نیازشان است از طریق وبسایت و اپلیکیشن به سهولت و در هر ساعتی از شبانه روز سفارش دهند. این خدمات از نظافت و پذیرایی گرفته تا بازسازی و دکوراسیون و تعمیرات،فروشگاه لوازم خانگی و ساختمانی  را شامل می شوند.
 این پلتفرم با استفاده از دانش فناوری اطلاعات تیم توسعه دهنده خود، انواع نیروهای خدماتی متخصص و معتمد را مستقیما به متقاضیان آن خدمات متصل میکند.
@@ -48,7 +49,7 @@ class AboutUsScreen extends StatelessWidget {
                   fontSize: 14,
                   color: Colors.white,
                 ),
-              ),
+              ).pLTRB(20, 0, 20, 0),
             ),
             const Directionality(
               textDirection: TextDirection.rtl,
