@@ -61,17 +61,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             OutlinedButton(
               onPressed: () async {
+                // version 1.3
                 SharedPreferences preferences =
                     await SharedPreferences.getInstance();
                 preferences.setString('mobile', '');
                 preferences.setString('token', '');
-                () => Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const PhoneScreen()),
-                      ModalRoute.withName('/'),
-                    );
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => const PhoneScreen()),
+                  ModalRoute.withName('/'),
+                );
               },
               style: ElevatedButton.styleFrom(
                 side: const BorderSide(

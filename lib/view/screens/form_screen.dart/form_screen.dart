@@ -235,6 +235,8 @@ class _FormScreenState extends State<FormScreen> {
                               address: address.text,
                               brand: brand.text);
                           VxToast.show(context, msg: 'خدمت با موفقیت ثبت شد');
+                          // version 1.3
+                          Navigator.pop(context);
                         },
               child: const Text(
                 'ثبت درخواست',

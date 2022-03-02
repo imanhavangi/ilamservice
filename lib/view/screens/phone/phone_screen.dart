@@ -151,7 +151,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                           if (mobile.text.length == 11) {
                             FocusScope.of(context).unfocus();
                             DatabaseServices.sms(phoneNumber: mobile.text);
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => OTPScreen(

@@ -98,7 +98,9 @@ class AboutUsScreen extends StatelessWidget {
                   ],
                 )),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await launch('https://t.me/faninajafi');
+                },
                 style: ElevatedButton.styleFrom(
                     primary: Colors.orange, shape: const StadiumBorder()),
                 child: Row(
@@ -108,7 +110,7 @@ class AboutUsScreen extends StatelessWidget {
                       FontAwesomeIcons.telegram,
                     ),
                     Text(
-                      '+۹۸۹۱۸۸۴۲۱۰۹۲  :تلگرام',
+                      'تلگرام',
                       style: TextStyle(fontFamily: 'iransans'),
                     ),
                   ],

@@ -1,11 +1,12 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ilamservice/data/database_services.dart';
 
 import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/types/types_screen.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
@@ -22,6 +23,9 @@ class _OTPScreenState extends State<OTPScreen> {
   TextEditingController code = TextEditingController();
   String _code = "";
   bool _onEditing = true;
+  String button = 'تایید کد';
+  bool timerFinished = false;
+  int _seconds = 120;
   @override
   void initState() {
     super.initState();
@@ -143,42 +147,85 @@ class _OTPScreenState extends State<OTPScreen> {
                   const SizedBox(
                     height: 20,
                   ),
+                  Countdown(
+                    seconds: _seconds - 110,
+                    build: (BuildContext context, double time) {
+                      return Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Text(
+                          'مدت زمان باقی مانده: ' + time.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'iransans',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            decorationStyle: TextDecorationStyle.solid,
+                          ),
+                        ),
+                      );
+                    },
+                    interval: const Duration(milliseconds: 1000),
+                    onFinished: () {
+                      setState(() {
+                        button = 'ارسال مجدد';
+                        timerFinished = true;
+                        _seconds = 120;
+                      });
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 30, right: 30),
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (_code.length == 4) {
-                          try {
-                            print(_code);
-                            FocusScope.of(context).unfocus();
-
-                            String s =
-                                await DatabaseServices.login(code: _code);
-                            if (s == 'fail') {
-                              VxToast.show(context,
-                                  msg:
-                                      'کد وارد شده صحیح نمی‌باشد لطفا دوباره تلاش کنید');
-                            } else {
-                              Navigator.pushReplacement(
+                        if (timerFinished == true) {
+                          String mobile = await DatabaseServices.getPhone();
+                          DatabaseServices.sms(phoneNumber: mobile);
+                          setState(() {
+                            timerFinished = false;
+                            button = 'تایید کد';
+                            Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => TypesScreen(
-                                          phoneNum: widget.phoneNumber,
-                                        )),
-                              );
-                            }
-                          } catch (e) {
-                            VxToast.show(context,
-                                msg: 'به اینترنت متصل نیستید');
-                          }
+                                    builder: (context) =>
+                                        OTPScreen(phoneNumber: mobile)));
+                          });
                         } else {
-                          FocusScope.of(context).unfocus();
-                          VxToast.show(context, msg: 'شماره باید ۴ رقم باشد');
+                          if (_code.length == 4) {
+                            try {
+                              print(_code);
+                              FocusScope.of(context).unfocus();
+
+                              String s =
+                                  await DatabaseServices.login(code: _code);
+                              if (s == 'fail') {
+                                VxToast.show(context,
+                                    msg:
+                                        'کد وارد شده صحیح نمی‌باشد لطفا دوباره تلاش کنید');
+                              } else {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TypesScreen(
+                                            phoneNum: widget.phoneNumber,
+                                          )),
+                                );
+                              }
+                            } catch (e) {
+                              VxToast.show(context,
+                                  msg: 'به اینترنت متصل نیستید');
+                            }
+                          } else {
+                            FocusScope.of(context).unfocus();
+                            VxToast.show(context, msg: 'شماره باید ۴ رقم باشد');
+                          }
                         }
                       },
-                      child: const Text(
-                        'تایید کد',
-                        style: TextStyle(
+                      child: Text(
+                        button,
+                        style: const TextStyle(
                             fontWeight: FontWeight.w800,
                             fontSize: 17,
                             color: Colors.white,
@@ -204,10 +251,8 @@ class _OTPScreenState extends State<OTPScreen> {
                         child: const Text('شماره را اشتباه وارد کرده‌اید؟',
                             style: TextStyle(fontFamily: 'iransans')),
                         onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const PhoneScreen()));
+                          // version 1.3
+                          Navigator.pop(context);
                         }),
                   ),
 
