@@ -6,12 +6,15 @@ import 'package:ilamservice/view/screens/otp/otp_screen.dart';
 import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/services/services_screen.dart';
 import 'package:ilamservice/view/screens/types/types_screen.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 bool loggedIn = false;
 // bool loggedIn = true;
 String phoneNumber = '';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  String s = await SmsAutoFill().getAppSignature;
+  print('App Signature:     ' + s);
   loggedIn = await DatabaseServices.isLoggedIn();
   phoneNumber = await DatabaseServices.getPhone();
   runApp(const MyApp());
