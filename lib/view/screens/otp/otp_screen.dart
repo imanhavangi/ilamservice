@@ -10,6 +10,8 @@ import 'package:timer_count_down/timer_count_down.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:sms_autofill/sms_autofill.dart';
+import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class OTPScreen extends StatefulWidget {
   final String phoneNumber;
@@ -19,17 +21,49 @@ class OTPScreen extends StatefulWidget {
   _OTPScreenState createState() => _OTPScreenState();
 }
 
-class _OTPScreenState extends State<OTPScreen> {
-  TextEditingController code = TextEditingController();
+class _OTPScreenState extends State<OTPScreen> with CodeAutoFill {
+  TextEditingController codee = TextEditingController();
+  String? appSignature;
+  String? otpCode;
+  // void codeUpdated() {
+  //   setState(() {
+  //     codee = codee;
+  //   });
+  // }
+  void codeUpdated() {
+    setState(() {
+      otpCode = code!;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listenForCode();
+
+    SmsAutoFill().getAppSignature.then((signature) {
+      setState(() {
+        appSignature = signature;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cancel();
+  }
+
   String _code = "";
   bool _onEditing = true;
   String button = 'تایید کد';
   bool timerFinished = false;
   int _seconds = 120;
-  @override
-  void initState() {
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   // listenFor
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -63,92 +97,103 @@ class _OTPScreenState extends State<OTPScreen> {
                       child: Image.asset("assets/icon.png"),
                     ),
                   ),
-                  SizedBox(
-                    // padding: EdgeInsets.only(left: 30, right: 30),
-                    // width: 120,
-                    // child: PinCodeTextField(
-                    //   controller: code,
-                    //   useHapticFeedback: true,
-                    //   hapticFeedbackTypes: HapticFeedbackTypes.vibrate,
-                    //   textStyle: const TextStyle(color: Colors.white),
-                    //   pinTheme: PinTheme(
-                    //     shape: PinCodeFieldShape.box,
-                    //     borderRadius: BorderRadius.circular(5),
-                    //     fieldHeight: 50,
-                    //     fieldWidth: 40,
-                    //     activeFillColor: Colors.white,
-                    //   ),
-                    //   length: 4,
-                    //   backgroundColor: Colors.transparent.withRed(100),
-                    //   cursorColor: Colors.white,
-                    //   obscureText: false,
-                    //   animationType: AnimationType.fade,
-                    //   animationDuration: const Duration(milliseconds: 300),
-                    //   onChanged: (value) {
-                    //     setState(() {
-                    //       code.text = value;
-                    //     });
-                    //   },
-                    //   appContext: context,
-                    // )
-                    child: VerificationCode(
-                      itemSize: 40,
-                      textStyle: TextStyle(fontSize: 20.0, color: Colors.white),
-                      keyboardType: TextInputType.number,
-                      underlineColor: Colors
-                          .amber, // If this is null it will use primaryColor: Colors.red from Theme
-                      length: 4,
-                      cursorColor: Colors
-                          .blue, // If this is null it will default to the ambient
-                      // clearAll is NOT required, you can delete it
-                      // takes any widget, so you can implement your design
-                      // clearAll: Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Text(
-                      //     'clear all',
-                      //     style: TextStyle(
-                      //         fontSize: 14.0,
-                      //         decoration: TextDecoration.underline,
-                      //         color: Colors.blue[700]),
-                      //   ),
-                      // ),
-                      onCompleted: (String value) {
-                        setState(() {
-                          print(value);
-                          _code = value;
-                        });
-                      },
-                      onEditing: (bool value) {
-                        setState(() {
-                          _onEditing = value;
-                        });
-                        if (!_onEditing) FocusScope.of(context).unfocus();
-                      },
-                    ),
+                  // SizedBox(
+                  // padding: EdgeInsets.only(left: 30, right: 30),
+                  // width: 120,
+                  // child: PinCodeTextField(
+                  //   controller: code,
+                  //   useHapticFeedback: true,
+                  //   hapticFeedbackTypes: HapticFeedbackTypes.vibrate,
+                  //   textStyle: const TextStyle(color: Colors.white),
+                  //   pinTheme: PinTheme(
+                  //     shape: PinCodeFieldShape.box,
+                  //     borderRadius: BorderRadius.circular(5),
+                  //     fieldHeight: 50,
+                  //     fieldWidth: 40,
+                  //     activeFillColor: Colors.white,
+                  //   ),
+                  //   length: 4,
+                  //   backgroundColor: Colors.transparent.withRed(100),
+                  //   cursorColor: Colors.white,
+                  //   obscureText: false,
+                  //   animationType: AnimationType.fade,
+                  //   animationDuration: const Duration(milliseconds: 300),
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       code.text = value;
+                  //     });
+                  //   },
+                  //   appContext: context,
+                  // )
 
-                    // child: TextFormField(
-                    //   controller: code,
-                    //   style: const TextStyle(
-                    //       fontFamily: 'iransans', color: Colors.white),
-                    //   textAlign: TextAlign.center,
-                    //   textDirection: TextDirection.rtl,
-                    //   // controller: emailController,
-                    //   decoration: const InputDecoration(
-                    //     // contentPadding: EdgeInsets.zero,
-                    //     hintTextDirection: TextDirection.rtl,
-                    //     // prefixIcon: Icon(Icons.phone),
-                    //     hintText: 'کد تایید',
-                    //     hintStyle: TextStyle(
-                    //         fontFamily: 'iransans', color: Color(0xffc7c8ca)),
-                    //   ),
-                    //   keyboardType: TextInputType.number,
-                    // ),
+                  // child:
+
+                  // child: VerificationCode(
+                  //   itemSize: 40,
+                  //   textStyle: TextStyle(fontSize: 20.0, color: Colors.white),
+                  //   keyboardType: TextInputType.number,
+                  //   underlineColor: Colors
+                  //       .amber, // If this is null it will use primaryColor: Colors.red from Theme
+                  //   length: 4,
+                  //   cursorColor: Colors
+                  //       .blue, // If this is null it will default to the ambient
+                  //   onCompleted: (String value) {
+                  //     setState(() {
+                  //       print(value);
+                  //       _code = value;
+                  //     });
+                  //   },
+                  //   onEditing: (bool value) {
+                  //     setState(() {
+                  //       _onEditing = value;
+                  //     });
+                  //     if (!_onEditing) FocusScope.of(context).unfocus();
+                  //   },
+                  // ),
+
+                  // child: TextFormField(
+                  //   controller: code,
+                  //   style: const TextStyle(
+                  //       fontFamily: 'iransans', color: Colors.white),
+                  //   textAlign: TextAlign.center,
+                  //   textDirection: TextDirection.rtl,
+                  //   // controller: emailController,
+                  //   decoration: const InputDecoration(
+                  //     // contentPadding: EdgeInsets.zero,
+                  //     hintTextDirection: TextDirection.rtl,
+                  //     // prefixIcon: Icon(Icons.phone),
+                  //     hintText: 'کد تایید',
+                  //     hintStyle: TextStyle(
+                  //         fontFamily: 'iransans', color: Color(0xffc7c8ca)),
+                  //   ),
+                  //   keyboardType: TextInputType.number,
+                  // ),
+                  // ),
+                  PinFieldAutoFill(
+                    codeLength: 4,
+                    decoration: UnderlineDecoration(
+                      textStyle: TextStyle(fontSize: 20, color: Colors.black),
+                      colorBuilder:
+                          FixedColorBuilder(Colors.black.withOpacity(0.3)),
+                    ),
+                    currentCode: _code,
+                    onCodeSubmitted: (code) {},
+                    onCodeChanged: (code) {
+                      if (code!.length == 4) {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      }
+                    },
                   ),
+                  // Spacer(),
+                  // TextFieldPinAutoFill(
+                  //   currentCode: _code,
+                  // ),
+
                   const SizedBox(
                     height: 20,
                   ),
                   Countdown(
-                    seconds: _seconds - 110,
+                    seconds: _seconds,
                     build: (BuildContext context, double time) {
                       return Directionality(
                         textDirection: TextDirection.rtl,

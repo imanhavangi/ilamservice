@@ -2,12 +2,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/view/screens/otp/otp_screen.dart';
+import 'package:ilamservice/view/screens/otp/otp_screen2.dart';
+import 'package:ilamservice/view/screens/otp/otp_screen3.dart';
 import 'package:ilamservice/view/screens/privacy_policy/privacy_policy_screen.dart';
 import 'package:ilamservice/view/screens/rules/rules_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class PhoneScreen extends StatefulWidget {
-  const PhoneScreen({Key? key}) : super(key: key);
+  final String si;
+  const PhoneScreen({Key? key, required this.si}) : super(key: key);
 
   @override
   _PhoneScreenState createState() => _PhoneScreenState();
@@ -18,6 +21,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
   bool acceptRules = false;
   @override
   Widget build(BuildContext context) {
+    // print(widget.si);
     return Scaffold(
       backgroundColor: const Color(0xff424242),
       body: SingleChildScrollView(
@@ -154,7 +158,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => OTPScreen(
+                                  builder: (context) => OtpScreen2(
                                         phoneNumber: mobile.text,
                                       )),
                             );
@@ -180,6 +184,10 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     onPrimary: Colors.white,
                   ),
                 ),
+              ),
+              Text(
+                widget.si,
+                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
               // Padding(
               //   padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),

@@ -11,9 +11,10 @@ import 'package:sms_autofill/sms_autofill.dart';
 bool loggedIn = false;
 // bool loggedIn = true;
 String phoneNumber = '';
+String s = '';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String s = await SmsAutoFill().getAppSignature;
+  s = await SmsAutoFill().getAppSignature;
   print('App Signature:     ' + s);
   loggedIn = await DatabaseServices.isLoggedIn();
   phoneNumber = await DatabaseServices.getPhone();
@@ -25,11 +26,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(s);
     return MaterialApp(
       initialRoute: (loggedIn) ? '/types' : '/',
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => const PhoneScreen(),
+        '/': (context) => PhoneScreen(
+              si: s,
+            ),
         // When navigating to the "/second" route, build the SecondScreen widget.
         '/types': (context) => TypesScreen(
               phoneNum: phoneNumber,
@@ -59,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return const MaterialApp(
       // theme: ThemeData(appBarTheme: AppBarTheme(color: Colors.transparent,)),
-      title: 'Ilam Service',
+      title: 'IlamService',
       // home: (loggedIn)
       //     ? TypesScreen(
       //         phoneNum: phoneNumber,

@@ -110,7 +110,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => const PhoneScreen()),
+                      builder: (BuildContext context) => const PhoneScreen(
+                            si: "",
+                          )),
                   ModalRoute.withName('/'),
                 );
               },
