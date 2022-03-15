@@ -154,14 +154,20 @@ class _PhoneScreenState extends State<PhoneScreen> {
                       : () async {
                           if (mobile.text.length == 11) {
                             FocusScope.of(context).unfocus();
-                            DatabaseServices.sms(phoneNumber: mobile.text);
-                            Navigator.push(
-                              context,
+                            DatabaseServices.sms2(phoneNumber: mobile.text);
+                            Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => OtpScreen2(
                                         phoneNumber: mobile.text,
                                       )),
                             );
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => OtpScreen2(
+                            //             phoneNumber: mobile.text,
+                            //           )),
+                            // );
                           } else {
                             FocusScope.of(context).unfocus();
                             VxToast.show(context,
@@ -185,10 +191,10 @@ class _PhoneScreenState extends State<PhoneScreen> {
                   ),
                 ),
               ),
-              Text(
-                widget.si,
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
+              // Text(
+              //   widget.si,
+              //   style: TextStyle(fontSize: 20, color: Colors.white),
+              // ),
               // Padding(
               //   padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               //   child: TextField(

@@ -71,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => const PhoneScreen(si: "")),
-                  ModalRoute.withName('/'),
+                  ModalRoute.withName('fi'),
                 );
               },
               style: ElevatedButton.styleFrom(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
+import 'package:ilamservice/main.dart';
+import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/types/types_screen.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -104,13 +106,20 @@ class _OtpScreen2State extends State<OtpScreen2> {
                                       msg:
                                           'کد وارد شده صحیح نمی‌باشد لطفا دوباره تلاش کنید');
                                 } else {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TypesScreen(
-                                              phoneNum: widget.phoneNumber,
-                                            )),
-                                  );
+                                  Navigator.of(context).popAndPushNamed('se');
+                                  // Navigator.of(context)
+                                  //     .pushReplacementNamed('se');
+                                  // Navigator.pushReplacementNamed(
+                                  //       context, '/types');
+                                  // Navigator.pushNamedAndRemoveUntil(
+                                  //     context, '/types', (route) => false);
+                                  // Navigator.pushReplacement(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => TypesScreen(
+                                  //             phoneNum: widget.phoneNumber,
+                                  //           )),
+                                  // );
                                 }
                               } catch (e) {
                                 VxToast.show(context,
@@ -164,7 +173,7 @@ class _OtpScreen2State extends State<OtpScreen2> {
                           onPressed: () async {
                             if (timerFinished == true) {
                               String mobile = await DatabaseServices.getPhone();
-                              DatabaseServices.sms(phoneNumber: mobile);
+                              DatabaseServices.sms2(phoneNumber: mobile);
                               setState(() {
                                 timerFinished = false;
                                 button = 'تایید کد';
@@ -187,13 +196,11 @@ class _OtpScreen2State extends State<OtpScreen2> {
                                         msg:
                                             'کد وارد شده صحیح نمی‌باشد لطفا دوباره تلاش کنید');
                                   } else {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => TypesScreen(
-                                                phoneNum: widget.phoneNumber,
-                                              )),
-                                    );
+                                    Navigator.of(context).popAndPushNamed('se');
+                                    // Navigator.of(context)
+                                    //     .pushReplacementNamed('se');
+                                    // Navigator.pushNamedAndRemoveUntil(
+                                    //     context, '/types', (route) => false);
                                   }
                                 } catch (e) {
                                   VxToast.show(context,
@@ -221,6 +228,22 @@ class _OtpScreen2State extends State<OtpScreen2> {
                             onPrimary: Colors.white,
                           ),
                         ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30, right: 30),
+                        child: TextButton(
+                            style: ElevatedButton.styleFrom(
+                              onPrimary: Colors.white,
+                            ),
+                            child: const Text('شماره را اشتباه وارد کرده‌اید؟',
+                                style: TextStyle(fontFamily: 'iransans')),
+                            onPressed: () {
+                              // version 1.3
+                              Navigator.of(context).pop();
+                            }),
                       ),
                     ],
                   ),

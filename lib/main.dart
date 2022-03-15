@@ -15,7 +15,7 @@ String s = '';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   s = await SmsAutoFill().getAppSignature;
-  print('App Signature:     ' + s);
+  // print('App Signature:     ' + s);
   loggedIn = await DatabaseServices.isLoggedIn();
   phoneNumber = await DatabaseServices.getPhone();
   runApp(const MyApp());
@@ -28,14 +28,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     print(s);
     return MaterialApp(
-      initialRoute: (loggedIn) ? '/types' : '/',
+      initialRoute: (loggedIn) ? 'se' : 'fi',
+      // initialRoute: '/types',
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => PhoneScreen(
+        'fi': (context) => PhoneScreen(
               si: s,
             ),
         // When navigating to the "/second" route, build the SecondScreen widget.
-        '/types': (context) => TypesScreen(
+        'se': (context) => TypesScreen(
               phoneNum: phoneNumber,
             ),
       },

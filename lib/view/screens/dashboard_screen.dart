@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ilamservice/main.dart';
 import 'package:ilamservice/view/screens/about_us/about_us_screen.dart';
 import 'package:ilamservice/view/screens/future_screen.dart';
 import 'package:ilamservice/view/screens/phone/phone_screen.dart';
@@ -113,7 +114,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       builder: (BuildContext context) => const PhoneScreen(
                             si: "",
                           )),
-                  ModalRoute.withName('/'),
+                  ModalRoute.withName('fi'),
                 );
               },
             ),

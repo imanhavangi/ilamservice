@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'dart:io';
+// import 'package:ably_flutter/ably_flutter.dart' as ably;
 
 class DatabaseServices {
   static Future<String> sms(
@@ -16,7 +18,7 @@ class DatabaseServices {
       Dio dio = Dio();
 
       final response = await dio.get(
-          'https://www.appbesaz.com/ilamservice/register/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&mobile=' +
+          'http://www.ilamservices.ir/register/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&mobile=' +
               phoneNumber);
       // Map<String, dynamic> res = json.decode(response.data.toString());
       return response.toString();
@@ -33,13 +35,26 @@ class DatabaseServices {
       var r = await http
           .get(
             Uri.parse(
-                'https://www.appbesaz.com/ilamservice/register/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&mobile=$phoneNumber'),
+                'http://www.ilamservices.ir/register/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&mobile=$phoneNumber'),
           )
           .timeout(const Duration(seconds: 20));
       return r.toString();
     } on TimeoutException catch (e) {
       return 'timeout';
     }
+  }
+
+  static Future<String> sms3(
+      {required String phoneNumber, String requestType = 'login'}) async {
+    var url = Uri.parse(
+        'http://www.ilamservices.ir/register/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&mobile=$phoneNumber');
+    var httpClient = HttpClient();
+    var request = await httpClient.getUrl(url);
+    var response = await request.close();
+    // var data = await utf8.decoder.bind(response).toString();
+    // print('Response ${response.statusCode}: $data');
+    httpClient.close();
+    return response.toString();
   }
 
   static Future<String> login({required String code}) async {
@@ -49,7 +64,7 @@ class DatabaseServices {
       var r = await http
           .get(
             Uri.parse(
-                'https://appbesaz.com/ilamservice/login?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&mobile=$phoneNumber&code=$code&platform=sth&os_version=sth&type_mobile=sth&ip=1.1.1.1&version=1'),
+                'http://ilamservices.ir/login?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&mobile=$phoneNumber&code=$code&platform=sth&os_version=sth&type_mobile=sth&ip=1.1.1.1&version=1'),
           )
           .timeout(const Duration(seconds: 20));
 
@@ -81,7 +96,7 @@ class DatabaseServices {
       var r = await http
           .get(
             Uri.parse(
-                'http://appbesaz.com/ilamservice/login/information.php?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&service=$service&title=$title&description=$description&name=$name&token=$token&address=$address&brand=$brand&mobile=$phoneNumber'),
+                'http://ilamservices.ir/login/information.php?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&service=$service&title=$title&description=$description&name=$name&token=$token&address=$address&brand=$brand&mobile=$phoneNumber'),
           )
           .timeout(const Duration(seconds: 20));
       var m = jsonDecode(r.body);
