@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:ilamservice/data/service_product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'dart:io';
@@ -119,5 +120,58 @@ class DatabaseServices {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? phone = sharedPreferences.getString('mobile') ?? '';
     return phone;
+  }
+
+  static Future<List<ServiceOrProduct>> getChildServicesOfParent(
+      int parentId) async {
+    List<ServiceOrProduct> res = [];
+    try {
+      var r = await http
+          .get(
+            Uri.parse(
+                'http://ilamservices.ir/data/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&id=$parentId&type=0'),
+          )
+          .timeout(const Duration(seconds: 20));
+      if (r.body != '[]') {
+        // it's a list of services.
+        var m = jsonDecode(r.body);
+        for (var i in m) {
+          res.add(ServiceOrProduct(
+            type: 0,
+            id: int.parse(i['id']),
+            fatherId: parentId,
+            name: utf8.decode(i['title'].runes.toList()),
+            fileName: '',
+            price: null,
+          ));
+        }
+      } else {
+        // Might be a list of products.
+        r = await http
+            .get(
+              Uri.parse(
+                  'http://ilamservices.ir/data/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&id=$parentId&type=1'),
+            )
+            .timeout(const Duration(seconds: 20));
+        if (r.body != '[]') {
+          //It's a List of products.
+          var m = jsonDecode(r.body);
+          for (var i in m) {
+            res.add(ServiceOrProduct(
+              type: 1,
+              id: int.parse(i['id']),
+              fatherId: parentId,
+              name: utf8.decode(i['title'].runes.toList()),
+              fileName: utf8.decode(i['file_name'].runes.toList()),
+              price: int.parse(i['price']),
+            ));
+          }
+        }
+      }
+
+      return res;
+    } on TimeoutException catch (e) {
+      return [];
+    }
   }
 }

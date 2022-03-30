@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
+import 'package:ilamservice/view/screens/category_services/category_services_screen.dart';
+import 'package:ilamservice/view/screens/category_services/widgets/category_service.dart';
 import 'package:ilamservice/view/screens/dashboard_screen.dart';
 import 'package:ilamservice/view/screens/form_screen.dart/form_screen.dart';
 import 'package:ilamservice/view/screens/otp/otp_screen.dart';
 import 'package:ilamservice/view/screens/phone/phone_screen.dart';
+import 'package:ilamservice/view/screens/products/products_screen.dart';
 import 'package:ilamservice/view/screens/services/services_screen.dart';
 import 'package:ilamservice/view/screens/types/types_screen.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+
+import 'data/service_product.dart';
 
 bool loggedIn = false;
 // bool loggedIn = true;
 String phoneNumber = '';
 String s = '';
+List<ServiceOrProduct> d = [];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // d = await DatabaseServices.getChildServicesOfParent(3);
+
   s = await SmsAutoFill().getAppSignature;
+
   // print('App Signature:     ' + s);
   loggedIn = await DatabaseServices.isLoggedIn();
   phoneNumber = await DatabaseServices.getPhone();
@@ -26,7 +35,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(s);
     return MaterialApp(
       initialRoute: (loggedIn) ? 'se' : 'fi',
       // initialRoute: '/types',
@@ -39,6 +47,10 @@ class MyApp extends StatelessWidget {
         'se': (context) => TypesScreen(
               phoneNum: phoneNumber,
             ),
+        // 'se': (context) => CategoryServicesScreen(
+        //       superCategoryName: 'فروشگاهی',
+        //       categories: d,
+        //     ),
       },
 
       title: 'Ilam Service',

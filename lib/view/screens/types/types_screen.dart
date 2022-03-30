@@ -1,7 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:ilamservice/view/screens/dashboard_screen.dart';
+import 'package:ilamservice/data/database_services.dart';
+import 'package:ilamservice/data/service_product.dart';
+import 'package:ilamservice/view/screens/category_services/category_services_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class TypesScreen extends StatelessWidget {
@@ -48,7 +48,7 @@ class TypesScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.orange,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   width: MediaQuery.of(context).size.width / 3,
@@ -69,19 +69,22 @@ class TypesScreen extends StatelessWidget {
                     ],
                   ),
                   // color: Colors.teal[100],
-                ).click(() {
+                ).click(() async {
+                  List<ServiceOrProduct> list =
+                      await DatabaseServices.getChildServicesOfParent(4);
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              DashBoardScreen(phoneNum: phoneNum)));
+                          builder: (context) => CategoryServicesScreen(
+                              superCategoryName: 'تعمیرات', categories: list)));
                 }).make(),
                 const SizedBox(
                   width: 20,
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
+                  decoration: const BoxDecoration(
+                      color: Colors.orange,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   width: MediaQuery.of(context).size.width / 3,
                   height: MediaQuery.of(context).size.width / 3,
@@ -99,8 +102,15 @@ class TypesScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                ).click(() {
-                  VxToast.show(context, msg: 'این بخش به زودی اضافه خواهد شد');
+                ).click(() async {
+                  List<ServiceOrProduct> list =
+                      await DatabaseServices.getChildServicesOfParent(3);
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CategoryServicesScreen(
+                              superCategoryName: 'فروشگاه', categories: list)));
                 }).make(),
               ],
             ),
@@ -111,8 +121,8 @@ class TypesScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
+                  decoration: const BoxDecoration(
+                      color: Colors.orange,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   width: MediaQuery.of(context).size.width / 3,
                   height: MediaQuery.of(context).size.width / 3,
@@ -130,15 +140,22 @@ class TypesScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                ).click(() {
-                  VxToast.show(context, msg: 'این بخش به زودی اضافه خواهد شد');
+                ).click(() async {
+                  List<ServiceOrProduct> list =
+                      await DatabaseServices.getChildServicesOfParent(5);
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CategoryServicesScreen(
+                              superCategoryName: 'ساختمان', categories: list)));
                 }).make(),
                 const SizedBox(
                   width: 20,
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
+                  decoration: const BoxDecoration(
+                      color: Colors.orange,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   width: MediaQuery.of(context).size.width / 3,
                   height: MediaQuery.of(context).size.width / 3,
@@ -156,8 +173,15 @@ class TypesScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                ).click(() {
-                  VxToast.show(context, msg: 'این بخش به زودی اضافه خواهد شد');
+                ).click(() async {
+                  List<ServiceOrProduct> list =
+                      await DatabaseServices.getChildServicesOfParent(9);
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CategoryServicesScreen(
+                              superCategoryName: 'خدماتی', categories: list)));
                 }).make(),
               ],
             ),
