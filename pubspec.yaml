@@ -52,7 +52,9 @@ dependencies:
   sms_autofill: ^2.2.0
   timer_count_down: ^2.2.1
   auto_size_text: ^3.0.0
-  cached_network_image: ^3.2.0
+  loader_overlay: ^2.0.6
+  flutter_spinkit: ^5.1.0
+  persian_datetime_picker: ^2.4.0
   # ably_flutter: ^1.2.12
   # requests: ^3.3.0
   

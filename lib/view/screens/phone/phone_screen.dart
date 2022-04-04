@@ -1,9 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
-import 'package:ilamservice/view/screens/otp/otp_screen.dart';
 import 'package:ilamservice/view/screens/otp/otp_screen2.dart';
-import 'package:ilamservice/view/screens/otp/otp_screen3.dart';
 import 'package:ilamservice/view/screens/privacy_policy/privacy_policy_screen.dart';
 import 'package:ilamservice/view/screens/rules/rules_screen.dart';
 import 'package:velocity_x/velocity_x.dart';

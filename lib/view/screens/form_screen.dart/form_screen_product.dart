@@ -1,24 +1,37 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/data/service_product.dart';
-import 'package:ilamservice/view/screens/rules/rules_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class ProductFormScreen extends StatefulWidget {
   final ServiceOrProduct product;
-
-  const ProductFormScreen({required this.product, Key? key}) : super(key: key);
+  final String name;
+  final String lastName;
+  const ProductFormScreen(
+      {required this.product,
+      required this.name,
+      required this.lastName,
+      Key? key})
+      : super(key: key);
 
   @override
   _ProductFormScreenState createState() => _ProductFormScreenState();
 }
 
 class _ProductFormScreenState extends State<ProductFormScreen> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController address = TextEditingController();
   // bool acceptRules = false;
+  @override
+  void initState() {
+    nameController.text = widget.name;
+    lastNameController.text = widget.lastName;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,27 +61,32 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
             const SizedBox(
               height: 50,
             ),
-            CachedNetworkImage(
-              imageUrl: 'http://ilamservices.ir/upload/product/' +
-                  (widget.product.fileName ?? ''),
-              imageBuilder: (context, imageProvider) => Container(
-                height: MediaQuery.of(context).size.width / 1.5,
-                width: MediaQuery.of(context).size.width / 1.5,
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xfff04a24), width: 3),
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                    // colorFilter: const ColorFilter.mode(
-                    //     Colors.red, BlendMode.colorBurn)),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xfff04a24), width: 3.0),
+                borderRadius: BorderRadius.circular(30.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black38.withOpacity(0.35),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3), // changes position of shadow
                   ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30.0),
+                child: Image.network(
+                  'http://ilamservices.ir/upload/product/' +
+                      (widget.product.fileName ?? ''),
+                  height: MediaQuery.of(context).size.width / 1.5,
+                  width: MediaQuery.of(context).size.width / 1.5,
+                  fit: BoxFit.cover,
                 ),
               ),
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
             const SizedBox(
-              width: 20,
+              height: 20,
             ),
             Text(
               '${(widget.product.price ?? 0).toString()}  تومان',
@@ -78,6 +96,9 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                   color: Color(0xf4f4f4f4)),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             // Padding(
             //   padding: const EdgeInsets.only(left: 30, right: 30),
@@ -127,6 +148,54 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
             // const SizedBox(
             //   height: 30,
             // ),
+            Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: TextFormField(
+                controller: nameController,
+                textDirection: TextDirection.rtl,
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: 'iransans'),
+                decoration: const InputDecoration(
+                  hintTextDirection: TextDirection.rtl,
+                  prefixIcon: Icon(
+                    Icons.account_circle_rounded,
+                    // color: Color(0xffc7c8ca),
+                    color: Colors.white,
+                  ),
+                  hintText: 'نام',
+                  hintStyle:
+                      TextStyle(fontFamily: 'iransans', color: Colors.white),
+                ),
+                // keyboardType: TextInputType.phone,
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: TextFormField(
+                controller: lastNameController,
+                textDirection: TextDirection.rtl,
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: 'iransans'),
+                decoration: const InputDecoration(
+                  hintTextDirection: TextDirection.rtl,
+                  prefixIcon: Icon(
+                    Icons.account_circle_sharp,
+                    // color: Color(0xffc7c8ca),
+                    color: Colors.white,
+                  ),
+                  hintText: 'نام خانوادگی',
+                  hintStyle:
+                      TextStyle(fontFamily: 'iransans', color: Colors.white),
+                ),
+                // keyboardType: TextInputType.phone,
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
@@ -254,15 +323,31 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                       VxToast.show(context,
                           msg: 'وارد کردن آدرس اجباری می‌باشد');
                     }
-                  : () {
+                  : () async {
                       FocusScope.of(context).unfocus();
-                      DatabaseServices.requestProduct(
+                      context.loaderOverlay.show();
+                      if (widget.name != nameController.text ||
+                          widget.lastName != lastNameController.text) {
+                        await DatabaseServices.changeName(
+                            name: nameController.text,
+                            lastName: lastNameController.text);
+                      }
+                      String code = await DatabaseServices.requestProduct(
                         productId: widget.product.id,
                         description: description.text,
                         address: address.text,
+                        fatherId: widget.product.fatherId,
+                        name: widget.product.name,
                       );
+                      context.loaderOverlay.hide();
                       VxToast.show(context,
-                          msg: 'درخواست محصول با موفقیت ثبت شد');
+                          textSize: 16,
+                          msg:
+                              'درخواست محصول با موفقیت ثبت شد کد رهگیری شما: $code می توانید آخرین کد رهگیری را در قسمت «کد آخرین سفارش» مشاهده کنید',
+                          position: VxToastPosition.bottom,
+                          pdHorizontal: 0,
+                          pdVertical: 0,
+                          showTime: 6000);
                       // version 1.3
                       Navigator.pop(context);
                     },

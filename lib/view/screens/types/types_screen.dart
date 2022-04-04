@@ -3,9 +3,11 @@ import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/data/service_product.dart';
 import 'package:ilamservice/view/screens/about_us/about_us_screen.dart';
 import 'package:ilamservice/view/screens/category_services/category_services_screen.dart';
+import 'package:ilamservice/view/screens/order/order_screen.dart';
 import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/products/products_screen.dart';
 import 'package:ilamservice/view/screens/profile/profile_screen.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -46,6 +48,32 @@ class TypesScreen extends StatelessWidget {
                 title: const Directionality(
                   textDirection: TextDirection.rtl,
                   child: Text(
+                    'کد آخرین سفارش',
+                    style:
+                        TextStyle(color: Colors.white, fontFamily: 'iransans'),
+                  ),
+                ),
+                onTap: () async {
+                  ServiceOrProduct serviceOrProduct =
+                      await DatabaseServices.getLastOrder();
+                  String code = await DatabaseServices.getCode();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OrderScreen(
+                                code: code,
+                                serviceOrProduct: serviceOrProduct,
+                              )));
+                },
+              ),
+              const Divider(
+                color: Colors.white,
+                height: 12,
+              ),
+              ListTile(
+                title: const Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Text(
                     'درباره ما',
                     style:
                         TextStyle(color: Colors.white, fontFamily: 'iransans'),
@@ -72,11 +100,17 @@ class TypesScreen extends StatelessWidget {
                   ),
                 ),
                 onTap: () async {
+                  context.loaderOverlay.show();
                   String phoneNum = await DatabaseServices.getPhone();
+                  String name = await DatabaseServices.getName();
+                  String lastName = await DatabaseServices.getLastName();
+                  context.loaderOverlay.hide();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ProfileScreen(
+                                name: name,
+                                lastName: lastName,
                                 phoneNumber: phoneNum,
                               )));
                 },
@@ -95,11 +129,12 @@ class TypesScreen extends StatelessWidget {
                   ),
                 ),
                 onTap: () async {
+                  context.loaderOverlay.show();
                   SharedPreferences preferences =
                       await SharedPreferences.getInstance();
                   preferences.setString('mobile', '');
                   preferences.setString('token', '');
-
+                  context.loaderOverlay.hide();
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
@@ -194,9 +229,10 @@ class TypesScreen extends StatelessWidget {
                     ),
                     // color: Colors.teal[100],
                   ).click(() async {
+                    context.loaderOverlay.show();
                     List<ServiceOrProduct> list =
                         await DatabaseServices.getChildServicesOfRepair();
-
+                    context.loaderOverlay.hide();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -241,10 +277,12 @@ class TypesScreen extends StatelessWidget {
                       ],
                     ),
                   ).click(() async {
+                    context.loaderOverlay.show();
                     List<ServiceOrProduct> list =
                         await DatabaseServices.getChildServicesOfParent(
                             ServiceOrProduct(
                                 type: 0, id: 4, fatherId: 4, name: ''));
+                    context.loaderOverlay.hide();
 
                     Navigator.push(
                         context,
@@ -295,11 +333,12 @@ class TypesScreen extends StatelessWidget {
                       ],
                     ),
                   ).click(() async {
+                    context.loaderOverlay.show();
                     List<ServiceOrProduct> list =
                         await DatabaseServices.getChildServicesOfParent(
                             ServiceOrProduct(
                                 type: 0, id: 5, fatherId: 5, name: ''));
-
+                    context.loaderOverlay.hide();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -344,10 +383,12 @@ class TypesScreen extends StatelessWidget {
                       ],
                     ),
                   ).click(() async {
+                    context.loaderOverlay.show();
                     List<ServiceOrProduct> list =
                         await DatabaseServices.getChildServicesOfParent(
                             ServiceOrProduct(
                                 type: 0, id: 9, fatherId: 9, name: ''));
+                    context.loaderOverlay.hide();
 
                     Navigator.push(
                         context,

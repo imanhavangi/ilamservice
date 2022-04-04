@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:ilamservice/data/service_product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'dart:io';
-// import 'package:ably_flutter/ably_flutter.dart' as ably;
 
 class DatabaseServices {
   static Future<String> sms(
@@ -41,6 +40,7 @@ class DatabaseServices {
           .timeout(const Duration(seconds: 20));
       return r.toString();
     } on TimeoutException catch (e) {
+      log(e.toString());
       return 'timeout';
     }
   }
@@ -76,6 +76,7 @@ class DatabaseServices {
       preferences.setString('token', m['token']);
       return r.body.toString();
     } on TimeoutException catch (e) {
+      log(e.toString());
       return 'timeout';
     }
   }
@@ -86,13 +87,13 @@ class DatabaseServices {
     required String brand,
     required String address,
     required String dateSend,
+    required int fatherId,
+    required String name,
   }) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String phoneNumber = preferences.getString('mobile') ?? '09215147902';
       String token = preferences.getString('token') ?? 's';
-      print(token);
-      print(phoneNumber);
+
       var r = await http
           .get(
             Uri.parse(
@@ -100,8 +101,37 @@ class DatabaseServices {
           )
           .timeout(const Duration(seconds: 20));
       var m = jsonDecode(r.body);
+      preferences.setString('code', m['response'].toString());
+      preferences.setString('serviceName', name);
+      preferences.setInt('fatherId', fatherId);
+      return m['response'].toString();
+    } on TimeoutException catch (e) {
+      log(e.toString());
+      return 'timeout';
+    }
+  }
+
+  static Future<String> changeName({
+    required String name,
+    required String lastName,
+  }) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String token = preferences.getString('token') ?? 's';
+      var r = await http
+          .get(
+            Uri.parse(
+                'http://ilamservices.ir/login/profile.php?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&name=$name&family=$lastName&token=$token'),
+          )
+          .timeout(const Duration(seconds: 20));
+      var m = jsonDecode(r.body) as Map;
+      if (m['response'] == 1) {
+        preferences.setString('name', name);
+        preferences.setString('lastName', lastName);
+      }
       return r.body.toString();
     } on TimeoutException catch (e) {
+      log(e.toString());
       return 'timeout';
     }
   }
@@ -110,13 +140,12 @@ class DatabaseServices {
     required int productId,
     required String description,
     required String address,
+    required String name,
+    required int fatherId,
   }) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String phoneNumber = preferences.getString('mobile') ?? '09215147902';
       String token = preferences.getString('token') ?? 's';
-      print(token);
-      print(phoneNumber);
       var r = await http
           .get(
             Uri.parse(
@@ -124,8 +153,13 @@ class DatabaseServices {
           )
           .timeout(const Duration(seconds: 20));
       var m = jsonDecode(r.body);
-      return r.body.toString();
+      preferences.setString('code', m['response'].toString());
+      preferences.setString('serviceName', name);
+      preferences.setInt('fatherId', fatherId);
+
+      return m['response'].toString();
     } on TimeoutException catch (e) {
+      log(e.toString());
       return 'timeout';
     }
   }
@@ -143,6 +177,32 @@ class DatabaseServices {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? phone = sharedPreferences.getString('mobile') ?? '';
     return phone;
+  }
+
+  static Future<String> getName() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? name = sharedPreferences.getString('name') ?? '';
+    return name;
+  }
+
+  static Future<String> getCode() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? code = sharedPreferences.getString('code') ?? '';
+    return code;
+  }
+
+  static Future<ServiceOrProduct> getLastOrder() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    int? fatherId = sharedPreferences.getInt('fatherId') ?? 0;
+    String? serviceName = sharedPreferences.getString('serviceName') ?? '';
+    return ServiceOrProduct(
+        type: 0, id: 0, fatherId: fatherId, name: serviceName);
+  }
+
+  static Future<String> getLastName() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? lastName = sharedPreferences.getString('lastName') ?? '';
+    return lastName;
   }
 
   static Future<List<ServiceOrProduct>> getChildServicesOfParent(
@@ -194,6 +254,7 @@ class DatabaseServices {
 
       return res;
     } on TimeoutException catch (e) {
+      log(e.toString());
       return [];
     }
   }
@@ -216,7 +277,6 @@ class DatabaseServices {
         }
       });
 
-      Stream s = Stream.fromIterable(res);
       while (res.isEmpty) {
         Duration d = const Duration(milliseconds: 100);
         await Future.delayed(d);

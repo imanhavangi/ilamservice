@@ -60,7 +60,7 @@ class _CardWidgetState extends State<CardWidget> {
             decoration: const BoxDecoration(
               // border: BoxBorder(),
               // border: Border.all(color: Colors.black),
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
             // child: Image.asset(widget.image),
           ),

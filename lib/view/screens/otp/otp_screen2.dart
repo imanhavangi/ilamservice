@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
-import 'package:ilamservice/main.dart';
-import 'package:ilamservice/view/screens/phone/phone_screen.dart';
-import 'package:ilamservice/view/screens/types/types_screen.dart';
-import 'package:pin_input_text_field/pin_input_text_field.dart';
+
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -34,7 +31,6 @@ class _OtpScreen2State extends State<OtpScreen2> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController inputCode = TextEditingController();
     return MaterialApp(
         theme: ThemeData.light(),
         home: Scaffold(
@@ -74,7 +70,7 @@ class _OtpScreen2State extends State<OtpScreen2> {
                       // PhoneFieldHint(),
                       Padding(
                         // width: 100,
-                        padding: EdgeInsets.only(left: 120, right: 120),
+                        padding: const EdgeInsets.only(left: 120, right: 120),
                         child: PinFieldAutoFill(
                           // controller: inputCode,
                           codeLength: 4,
@@ -186,7 +182,6 @@ class _OtpScreen2State extends State<OtpScreen2> {
                             } else {
                               if (_code.length == 4) {
                                 try {
-                                  print(_code);
                                   FocusScope.of(context).unfocus();
 
                                   String s =
@@ -269,6 +264,8 @@ class _OtpScreen2State extends State<OtpScreen2> {
 }
 
 class CodeAutoFillTestPage extends StatefulWidget {
+  const CodeAutoFillTestPage({Key? key}) : super(key: key);
+
   @override
   _CodeAutoFillTestPageState createState() => _CodeAutoFillTestPageState();
 }
@@ -305,11 +302,11 @@ class _CodeAutoFillTestPageState extends State<CodeAutoFillTestPage>
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = TextStyle(fontSize: 18);
+    const textStyle = TextStyle(fontSize: 18);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Listening for code"),
+        title: const Text("Listening for code"),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -326,7 +323,7 @@ class _CodeAutoFillTestPageState extends State<CodeAutoFillTestPage>
             child: Builder(
               builder: (_) {
                 if (otpCode == null) {
-                  return Text("Listening for code...", style: textStyle);
+                  return const Text("Listening for code...", style: textStyle);
                 }
                 return Text("Code Received: $otpCode", style: textStyle);
               },

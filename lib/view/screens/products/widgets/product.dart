@@ -1,11 +1,9 @@
-import 'dart:convert';
-
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/data/service_product.dart';
 import 'package:ilamservice/view/screens/form_screen.dart/form_screen_product.dart';
 import 'package:ilamservice/view/screens/form_screen.dart/form_screen_service.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class Product extends StatefulWidget {
   final ServiceOrProduct product;
@@ -35,64 +33,71 @@ class _ProductState extends State<Product> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CachedNetworkImage(
-              imageUrl: 'http://ilamservices.ir/upload/product/' +
+            Image.network(
+              'http://ilamservices.ir/upload/product/' +
                   (widget.product.fileName ?? ''),
-              imageBuilder: (context, imageProvider) => Container(
-                height: MediaQuery.of(context).size.width / 5,
-                width: MediaQuery.of(context).size.width / 5,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                    // colorFilter: const ColorFilter.mode(
-                    //     Colors.red, BlendMode.colorBurn)),
-                  ),
-                ),
-              ),
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              height: MediaQuery.of(context).size.width / 5,
+              width: MediaQuery.of(context).size.width / 5,
+              fit: BoxFit.cover,
             ),
+
             // Image.network(
             //   'http://ilamservices.ir/upload/product/' +
             //       (widget.product.fileName ?? ''),
             //   height: MediaQuery.of(context).size.width / 5,
             //   width: MediaQuery.of(context).size.width / 5,
             // ),
-            Text(
-              widget.product.name,
-              style: const TextStyle(
-                color: Colors.black54,
-                fontFamily: 'IranSans',
+            Padding(
+              padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
+              child: AutoSizeText(
+                widget.product.name,
+                maxLines: 1,
+                style: const TextStyle(
+                  color: Colors.black54,
+                  fontFamily: 'IranSans',
+                ),
               ),
             ),
-            Text(
-              '${(widget.product.price ?? 0).toString()}  تومان',
-              textDirection: TextDirection.rtl,
-              style: const TextStyle(
-                  fontFamily: 'IranSans',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+              child: Text(
+                '${(widget.product.price ?? 0).toString()}  تومان',
+                textDirection: TextDirection.rtl,
+                style: const TextStyle(
+                    fontFamily: 'IranSans',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
             ),
           ],
         ),
       ),
-      onTap: () {
+      onTap: () async {
         switch (widget.product.fatherId) {
           case 4:
+            String name = await DatabaseServices.getName();
+            String lastName = await DatabaseServices.getLastName();
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      ProductFormScreen(product: widget.product)),
+                  builder: (context) => ProductFormScreen(
+                        product: widget.product,
+                        name: name,
+                        lastName: lastName,
+                      )),
             );
             break;
           default:
+            String name = await DatabaseServices.getName();
+            String lastName = await DatabaseServices.getLastName();
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        ServiceFormScreen(service: widget.product)));
+                    builder: (context) => ServiceFormScreen(
+                          service: widget.product,
+                          name: name,
+                          lastName: lastName,
+                        )));
         }
       },
     );
