@@ -127,16 +127,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       ),
       appBar: AppBar(
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SearchScreen()));
-              },
-              icon: const Icon(Icons.search)),
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         Navigator.push(
+        //             context,
+        //             MaterialPageRoute(
+        //                 builder: (context) => const SearchScreen()));
+        //       },
+        //       icon: const Icon(Icons.search)),
+        // ],
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {

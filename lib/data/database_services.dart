@@ -81,12 +81,11 @@ class DatabaseServices {
   }
 
   static Future<String> requestService({
-    required String service,
-    required String title,
+    required int productId,
     required String description,
-    required String name,
-    required String address,
     required String brand,
+    required String address,
+    required String dateSend,
   }) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -97,7 +96,31 @@ class DatabaseServices {
       var r = await http
           .get(
             Uri.parse(
-                'http://ilamservices.ir/login/information.php?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&service=$service&title=$title&description=$description&name=$name&token=$token&address=$address&brand=$brand&mobile=$phoneNumber'),
+                'http://ilamservices.ir/order/service.php?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&product_id=$productId&description=$description&brand=$brand&token=$token&address=$address&date_send=$dateSend'),
+          )
+          .timeout(const Duration(seconds: 20));
+      var m = jsonDecode(r.body);
+      return r.body.toString();
+    } on TimeoutException catch (e) {
+      return 'timeout';
+    }
+  }
+
+  static Future<String> requestProduct({
+    required int productId,
+    required String description,
+    required String address,
+  }) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String phoneNumber = preferences.getString('mobile') ?? '09215147902';
+      String token = preferences.getString('token') ?? 's';
+      print(token);
+      print(phoneNumber);
+      var r = await http
+          .get(
+            Uri.parse(
+                'http://ilamservices.ir/order/product.php?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&product_id=$productId&description=$description&token=$token&address=$address'),
           )
           .timeout(const Duration(seconds: 20));
       var m = jsonDecode(r.body);
@@ -123,13 +146,13 @@ class DatabaseServices {
   }
 
   static Future<List<ServiceOrProduct>> getChildServicesOfParent(
-      int parentId) async {
+      ServiceOrProduct parent) async {
     List<ServiceOrProduct> res = [];
     try {
       var r = await http
           .get(
             Uri.parse(
-                'http://ilamservices.ir/data/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&id=$parentId&type=0'),
+                'http://ilamservices.ir/data/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&id=${parent.id}&type=0'),
           )
           .timeout(const Duration(seconds: 20));
       if (r.body != '[]') {
@@ -139,7 +162,7 @@ class DatabaseServices {
           res.add(ServiceOrProduct(
             type: 0,
             id: int.parse(i['id']),
-            fatherId: parentId,
+            fatherId: parent.fatherId,
             name: utf8.decode(i['title'].runes.toList()),
             fileName: '',
             price: null,
@@ -150,7 +173,7 @@ class DatabaseServices {
         r = await http
             .get(
               Uri.parse(
-                  'http://ilamservices.ir/data/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&id=$parentId&type=1'),
+                  'http://ilamservices.ir/data/?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&id=${parent.id}&type=1'),
             )
             .timeout(const Duration(seconds: 20));
         if (r.body != '[]') {
@@ -160,7 +183,7 @@ class DatabaseServices {
             res.add(ServiceOrProduct(
               type: 1,
               id: int.parse(i['id']),
-              fatherId: parentId,
+              fatherId: parent.fatherId,
               name: utf8.decode(i['title'].runes.toList()),
               fileName: utf8.decode(i['file_name'].runes.toList()),
               price: int.parse(i['price']),
@@ -171,6 +194,55 @@ class DatabaseServices {
 
       return res;
     } on TimeoutException catch (e) {
+      return [];
+    }
+  }
+
+  static Future<List<ServiceOrProduct>> getChildServicesOfRepair() async {
+    List<ServiceOrProduct> res = [];
+    try {
+      List<Future<List<ServiceOrProduct>>> list = [];
+      List<ServiceOrProduct> tmp =
+          await DatabaseServices.getChildServicesOfParent(
+              ServiceOrProduct(type: 0, id: 3, fatherId: 3, name: ''));
+      for (ServiceOrProduct i in tmp) {
+        list.add(DatabaseServices.getChildServicesOfParent(i));
+      }
+      Future.wait(list).then((List<List<ServiceOrProduct>> productsList) {
+        for (var j in productsList) {
+          for (var k in j) {
+            res.add(k);
+          }
+        }
+      });
+
+      Stream s = Stream.fromIterable(res);
+      while (res.isEmpty) {
+        Duration d = const Duration(milliseconds: 100);
+        await Future.delayed(d);
+      }
+      int counter = 0;
+      for (int i = 0; i < res.length; i++) {
+        if (res[i].name.contains('کولر')) {
+          ServiceOrProduct tmp = res[counter];
+          res[counter++] = res[i];
+          res[i] = tmp;
+        } else if (res[i].name.contains('آبگرمکن')) {
+          ServiceOrProduct tmp = res[counter];
+          res[counter++] = res[i];
+          res[i] = tmp;
+        } else if (res[i].name.contains('یخچال')) {
+          ServiceOrProduct tmp = res[counter];
+          res[counter++] = res[i];
+          res[i] = tmp;
+        } else if (res[i].name.contains('لباسشویی')) {
+          ServiceOrProduct tmp = res[counter];
+          res[counter++] = res[i];
+          res[i] = tmp;
+        }
+      }
+      return res;
+    } catch (e) {
       return [];
     }
   }

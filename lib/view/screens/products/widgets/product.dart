@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/service_product.dart';
+import 'package:ilamservice/view/screens/form_screen.dart/form_screen_product.dart';
+import 'package:ilamservice/view/screens/form_screen.dart/form_screen_service.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class Product extends StatefulWidget {
@@ -15,48 +18,83 @@ class Product extends StatefulWidget {
 class _ProductState extends State<Product> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          border: Border.all(color: const Color(0xfff04a24), width: 3),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black45,
-              blurRadius: 4,
-              offset: Offset(4, 8),
+    return GestureDetector(
+      child: Container(
+        height: MediaQuery.of(context).size.width / 3.5,
+        width: MediaQuery.of(context).size.width / 3.5,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                  blurRadius: 5, spreadRadius: 1, color: Colors.red.shade300)
+            ],
+            color: Colors.white,
+            border: Border.all(color: Colors.red, width: 2)),
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CachedNetworkImage(
+              imageUrl: 'http://ilamservices.ir/upload/product/' +
+                  (widget.product.fileName ?? ''),
+              imageBuilder: (context, imageProvider) => Container(
+                height: MediaQuery.of(context).size.width / 5,
+                width: MediaQuery.of(context).size.width / 5,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                    // colorFilter: const ColorFilter.mode(
+                    //     Colors.red, BlendMode.colorBurn)),
+                  ),
+                ),
+              ),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-          ]),
-      height: 140,
-      width: 140,
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.network(
-            'http://ilamservices.ir/upload/product/' +
-                (widget.product.fileName ?? ''),
-            width: 100,
-            height: 100,
-          ),
-          Text(
-            widget.product.name,
-            style: const TextStyle(
-              color: Colors.black54,
-              fontFamily: 'IranSans',
-            ),
-          ),
-          Text(
-            '${(widget.product.price ?? 0).toString()}  تومان',
-            textDirection: TextDirection.rtl,
-            style: const TextStyle(
+            // Image.network(
+            //   'http://ilamservices.ir/upload/product/' +
+            //       (widget.product.fileName ?? ''),
+            //   height: MediaQuery.of(context).size.width / 5,
+            //   width: MediaQuery.of(context).size.width / 5,
+            // ),
+            Text(
+              widget.product.name,
+              style: const TextStyle(
+                color: Colors.black54,
                 fontFamily: 'IranSans',
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
-          ),
-        ],
+              ),
+            ),
+            Text(
+              '${(widget.product.price ?? 0).toString()}  تومان',
+              textDirection: TextDirection.rtl,
+              style: const TextStyle(
+                  fontFamily: 'IranSans',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+          ],
+        ),
       ),
+      onTap: () {
+        switch (widget.product.fatherId) {
+          case 4:
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ProductFormScreen(product: widget.product)),
+            );
+            break;
+          default:
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ServiceFormScreen(service: widget.product)));
+        }
+      },
     );
   }
 }

@@ -34,23 +34,30 @@ class _CategoryServicesScreenState extends State<CategoryServicesScreen> {
             )),
           ),
           body: Container(
-              // height: MediaQuery.of(context).size.height,
-              // alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                    Color(0xff4e4f51),
-                    Color(0xff808186),
-                    Color(0xff4e4f51),
-                  ])),
-              child: ListView.builder(
-                  itemCount: widget.categories.length,
-                  itemBuilder: (context, index) {
-                    return CategoryService(
-                        categoryService: widget.categories[index]);
-                  })),
+            // height: MediaQuery.of(context).size.height,
+            // alignment: Alignment.center,
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                  Color(0xff4e4f51),
+                  Color(0xff808186),
+                  Color(0xff4e4f51),
+                ])),
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent:
+                            MediaQuery.of(context).size.width / 2),
+                    padding: const EdgeInsets.all(20),
+                    itemCount: widget.categories.length,
+                    itemBuilder: (context, index) {
+                      return CategoryService(
+                          categoryService: widget.categories[index]);
+                    })),
+          ),
         ),
       );
     } else {

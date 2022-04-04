@@ -1,19 +1,20 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ilamservice/data/database_services.dart';
+import 'package:ilamservice/data/service_product.dart';
 import 'package:ilamservice/view/screens/rules/rules_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class FormScreen extends StatefulWidget {
-  final String service;
+class ServiceFormScreen extends StatefulWidget {
+  final ServiceOrProduct service;
 
-  const FormScreen({required this.service, Key? key}) : super(key: key);
+  const ServiceFormScreen({required this.service, Key? key}) : super(key: key);
 
   @override
-  _FormScreenState createState() => _FormScreenState();
+  _ServiceFormScreenState createState() => _ServiceFormScreenState();
 }
 
-class _FormScreenState extends State<FormScreen> {
+class _ServiceFormScreenState extends State<ServiceFormScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
@@ -27,8 +28,9 @@ class _FormScreenState extends State<FormScreen> {
         backgroundColor: const Color(0xff4e4f51),
         centerTitle: true,
         title: Text(
-          widget.service,
-          style: const TextStyle(fontFamily: 'iransans'),
+          widget.service.name,
+          style:
+              const TextStyle(fontFamily: 'iransans', color: Color(0xfff04a24)),
         ),
       ),
       body: Container(
@@ -48,30 +50,30 @@ class _FormScreenState extends State<FormScreen> {
             const SizedBox(
               height: 50,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: TextFormField(
-                controller: name,
-                textDirection: TextDirection.rtl,
-                style: const TextStyle(
-                    color: Colors.white, fontFamily: 'iransans'),
-                decoration: const InputDecoration(
-                  hintTextDirection: TextDirection.rtl,
-                  prefixIcon: Icon(
-                    Icons.account_circle_rounded,
-                    // color: Color(0xffc7c8ca),
-                    color: Colors.white,
-                  ),
-                  hintText: 'نام و نام خانوادگی',
-                  hintStyle:
-                      TextStyle(fontFamily: 'iransans', color: Colors.white),
-                ),
-                // keyboardType: TextInputType.phone,
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 30, right: 30),
+            //   child: TextFormField(
+            //     controller: name,
+            //     textDirection: TextDirection.rtl,
+            //     style: const TextStyle(
+            //         color: Colors.white, fontFamily: 'iransans'),
+            //     decoration: const InputDecoration(
+            //       hintTextDirection: TextDirection.rtl,
+            //       prefixIcon: Icon(
+            //         Icons.account_circle_rounded,
+            //         // color: Color(0xffc7c8ca),
+            //         color: Colors.white,
+            //       ),
+            //       hintText: 'نام و نام خانوادگی',
+            //       hintStyle:
+            //           TextStyle(fontFamily: 'iransans', color: Colors.white),
+            //     ),
+            //     // keyboardType: TextInputType.phone,
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 30,
+            // ),
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
@@ -218,26 +220,25 @@ class _FormScreenState extends State<FormScreen> {
             Center(
                 child: ElevatedButton(
               style: ElevatedButton.styleFrom(primary: const Color(0xfff04a24)),
-              onPressed:
-                  ((name.text == '' || title.text == '' || address.text == ''))
-                      ? () {
-                          VxToast.show(context,
-                              msg:
-                                  'مقادیر نام و نام خانوادگی، زمان ارسال تعمیر‌کار، و آدرس اجباری می‌باشند');
-                        }
-                      : () {
-                          FocusScope.of(context).unfocus();
-                          DatabaseServices.requestService(
-                              service: widget.service,
-                              title: title.text,
-                              description: description.text,
-                              name: name.text,
-                              address: address.text,
-                              brand: brand.text);
-                          VxToast.show(context, msg: 'خدمت با موفقیت ثبت شد');
-                          // version 1.3
-                          Navigator.pop(context);
-                        },
+              onPressed: ((title.text == '' || address.text == ''))
+                  ? () {
+                      VxToast.show(context,
+                          msg:
+                              'مقادیر زمان ارسال تعمیر‌کار، و آدرس اجباری می‌باشند');
+                    }
+                  : () {
+                      FocusScope.of(context).unfocus();
+                      DatabaseServices.requestService(
+                          productId: widget.service.id,
+                          description: description.text,
+                          dateSend: title.text,
+                          address: address.text,
+                          brand: brand.text);
+                      VxToast.show(context,
+                          msg: 'درخواست خدمت با موفقیت ثبت شد');
+                      // version 1.3
+                      Navigator.pop(context);
+                    },
               child: const Text(
                 'ثبت درخواست',
                 style: TextStyle(fontFamily: 'iransans', fontSize: 20),

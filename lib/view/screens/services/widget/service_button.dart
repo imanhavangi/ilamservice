@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ilamservice/data/service_product.dart';
 import 'package:ilamservice/view/base/service_circlebutton.dart';
-import 'package:ilamservice/view/screens/form_screen.dart/form_screen.dart';
+import 'package:ilamservice/view/screens/form_screen.dart/form_screen_service.dart';
 
 class ServiceButton extends StatelessWidget {
   final String text;
@@ -15,7 +16,10 @@ class ServiceButton extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => FormScreen(service: text)));
+                  builder: (context) => ServiceFormScreen(
+                        service: ServiceOrProduct(
+                            type: 0, id: 0, fatherId: 0, name: 'name'),
+                      )));
         },
         child: SizedBox(
           height: MediaQuery.of(context).size.width / 2.2,
