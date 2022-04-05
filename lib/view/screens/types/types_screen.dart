@@ -4,6 +4,7 @@ import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/data/service_product.dart';
 import 'package:ilamservice/view/screens/about_us/about_us_screen.dart';
 import 'package:ilamservice/view/screens/category_services/category_services_screen.dart';
+import 'package:ilamservice/view/screens/contact_us/contact_us_screen.dart';
 import 'package:ilamservice/view/screens/order/order_screen.dart';
 import 'package:ilamservice/view/screens/products/products_screen.dart';
 import 'package:ilamservice/view/screens/profile/profile_screen.dart';
@@ -434,6 +435,12 @@ class TypesScreen extends StatelessWidget {
                                 serviceOrProduct: serviceOrProduct,
                               )));
                   break;
+                case 2:
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ContacUsScreen()));
+                  break;
                 case 3:
                   Navigator.push(
                       context,
@@ -450,7 +457,7 @@ class TypesScreen extends StatelessWidget {
             },
             currentIndex: 2,
             selectedItemColor: const Color(0xfff04a24),
-            unselectedItemColor: const Color(0xf4f4f4f4),
+            unselectedItemColor: const Color(0xfff04a24),
             iconSize: 40,
             showUnselectedLabels: true,
             selectedLabelStyle: const TextStyle(
@@ -460,26 +467,31 @@ class TypesScreen extends StatelessWidget {
             ),
             items: const [
               BottomNavigationBarItem(
-                  backgroundColor: Colors.black45,
+                  backgroundColor: Colors.black87,
                   icon: Icon(FontAwesomeIcons.solidAddressCard),
                   label: 'پروفایل'),
               BottomNavigationBarItem(
-                  backgroundColor: Colors.black45,
+                  backgroundColor: Colors.black87,
                   icon: Icon(FontAwesomeIcons.fileSignature),
                   label: 'کد سفارش'),
+
               BottomNavigationBarItem(
-                  backgroundColor: Colors.black45,
-                  icon: ImageIcon(
-                    AssetImage('assets/icon.png'),
-                    color: Color(0xfff04a24),
-                  ),
-                  label: 'ایلام سرویس'),
+                  backgroundColor: Colors.black87,
+                  icon: Icon(FontAwesomeIcons.phone),
+                  label: 'تماس با ما'),
+              // BottomNavigationBarItem(
+              //     backgroundColor: Colors.black87,
+              //     icon: ImageIcon(
+              //       AssetImage('assets/icon.png'),
+              //       color: Color(0xfff04a24),
+              //     ),
+              //     label: 'ایلام سرویس'),
               BottomNavigationBarItem(
-                  backgroundColor: Colors.black45,
+                  backgroundColor: Colors.black87,
                   icon: Icon(FontAwesomeIcons.info),
                   label: 'درباره ما'),
               BottomNavigationBarItem(
-                  backgroundColor: Colors.black45,
+                  backgroundColor: Colors.black87,
                   icon: Icon(FontAwesomeIcons.book),
                   label: 'قوانین'),
             ],

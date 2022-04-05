@@ -318,42 +318,42 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
             Center(
                 child: ElevatedButton(
               style: ElevatedButton.styleFrom(primary: const Color(0xfff04a24)),
-              onPressed: (nameController.text == '' ||
-                      lastNameController.text == '' ||
-                      address.text == '')
-                  ? () {
-                      VxToast.show(context,
-                          msg:
-                              'وارد کردن نام، نام خانوادگی، و آدرس اجباری می‌باشد');
-                    }
-                  : () async {
-                      FocusScope.of(context).unfocus();
-                      context.loaderOverlay.show();
-                      if (widget.name != nameController.text ||
-                          widget.lastName != lastNameController.text) {
-                        await DatabaseServices.changeName(
-                            name: nameController.text,
-                            lastName: lastNameController.text);
-                      }
-                      String code = await DatabaseServices.requestProduct(
-                        productId: widget.product.id,
-                        description: description.text,
-                        address: address.text,
-                        fatherId: widget.product.fatherId,
-                        name: widget.product.name,
-                      );
-                      context.loaderOverlay.hide();
-                      VxToast.show(context,
-                          textSize: 16,
-                          msg:
-                              'درخواست محصول با موفقیت ثبت شد کد رهگیری شما: $code می توانید آخرین کد رهگیری را در قسمت «کد آخرین سفارش» مشاهده کنید',
-                          position: VxToastPosition.bottom,
-                          pdHorizontal: 0,
-                          pdVertical: 0,
-                          showTime: 6000);
-                      // version 1.3
-                      Navigator.pop(context);
-                    },
+              onPressed: () async {
+                FocusScope.of(context).unfocus();
+                if (nameController.text == '' ||
+                    lastNameController.text == '' ||
+                    address.text == '') {
+                  VxToast.show(context,
+                      msg:
+                          'وارد کردن نام، نام خانوادگی، و آدرس اجباری می‌باشد');
+                } else {
+                  context.loaderOverlay.show();
+                  if (widget.name != nameController.text ||
+                      widget.lastName != lastNameController.text) {
+                    await DatabaseServices.changeName(
+                        name: nameController.text,
+                        lastName: lastNameController.text);
+                  }
+                  String code = await DatabaseServices.requestProduct(
+                    productId: widget.product.id,
+                    description: description.text,
+                    address: address.text,
+                    fatherId: widget.product.fatherId,
+                    name: widget.product.name,
+                  );
+                  context.loaderOverlay.hide();
+                  VxToast.show(context,
+                      textSize: 16,
+                      msg:
+                          'درخواست محصول با موفقیت ثبت شد کد رهگیری شما: $code می توانید آخرین کد رهگیری را در قسمت «کد سفارش» مشاهده کنید',
+                      position: VxToastPosition.bottom,
+                      pdHorizontal: 0,
+                      pdVertical: 0,
+                      showTime: 6000);
+                  // version 1.3
+                  Navigator.pop(context);
+                }
+              },
               child: const Text(
                 'ثبت درخواست',
                 style: TextStyle(fontFamily: 'iransans', fontSize: 20),

@@ -28,6 +28,7 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
   TextEditingController description = TextEditingController();
   TextEditingController brand = TextEditingController();
   TextEditingController address = TextEditingController();
+
   // bool acceptRules = false;
   @override
   void initState() {
@@ -343,47 +344,46 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                             child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               primary: const Color(0xfff04a24)),
-                          onPressed: ((nameController.text == '' ||
-                                  lastNameController.text == '' ||
-                                  title.text == '' ||
-                                  address.text == ''))
-                              ? () {
-                                  VxToast.show(context,
-                                      msg:
-                                          'مقادیر نام و نام خانوادگی، زمان ارسال تعمیر‌کار، و آدرس اجباری می‌باشند');
-                                }
-                              : () async {
-                                  FocusScope.of(context).unfocus();
-                                  context.loaderOverlay.show();
-                                  if (widget.name != nameController.text ||
-                                      widget.lastName !=
-                                          lastNameController.text) {
-                                    await DatabaseServices.changeName(
-                                        name: nameController.text,
-                                        lastName: lastNameController.text);
-                                  }
-                                  String code =
-                                      await DatabaseServices.requestService(
-                                    productId: widget.service.id,
-                                    description: description.text,
-                                    dateSend: title.text,
-                                    address: address.text,
-                                    brand: brand.text,
-                                    fatherId: widget.service.fatherId,
-                                    name: widget.service.name,
-                                  );
-                                  context.loaderOverlay.hide();
-                                  VxToast.show(context,
-                                      textSize: 16,
-                                      msg:
-                                          'درخواست خدمت با موفقیت ثبت شد کد رهگیری شما: $code می توانید آخرین کد رهگیری را در قسمت «کد آخرین سفارش» مشاهده کنید',
-                                      position: VxToastPosition.bottom,
-                                      pdHorizontal: 0,
-                                      pdVertical: 0,
-                                      showTime: 6000);
-                                  // version 1.3
-                                  Navigator.pop(context);
-                                },
+                          onPressed: () async {
+                            FocusScope.of(context).unfocus();
+                            if (nameController.text == '' ||
+                                lastNameController.text == '' ||
+                                title.text == '' ||
+                                address.text == '') {
+                              VxToast.show(context,
+                                  msg:
+                                      'مقادیر نام و نام خانوادگی، زمان ارسال تعمیر‌کار، و آدرس اجباری می‌باشند');
+                            } else {
+                              context.loaderOverlay.show();
+                              if (widget.name != nameController.text ||
+                                  widget.lastName != lastNameController.text) {
+                                await DatabaseServices.changeName(
+                                    name: nameController.text,
+                                    lastName: lastNameController.text);
+                              }
+                              String code =
+                                  await DatabaseServices.requestService(
+                                productId: widget.service.id,
+                                description: description.text,
+                                dateSend: title.text,
+                                address: address.text,
+                                brand: brand.text,
+                                fatherId: widget.service.fatherId,
+                                name: widget.service.name,
+                              );
+                              context.loaderOverlay.hide();
+                              VxToast.show(context,
+                                  textSize: 16,
+                                  msg:
+                                      'درخواست خدمت با موفقیت ثبت شد کد رهگیری شما: $code می توانید آخرین کد رهگیری را در قسمت «کد سفارش» مشاهده کنید',
+                                  position: VxToastPosition.bottom,
+                                  pdHorizontal: 0,
+                                  pdVertical: 0,
+                                  showTime: 6000);
+                              // version 1.3
+                              Navigator.pop(context);
+                            }
+                          },
                           child: const Text(
                             'ثبت درخواست',
                             style:

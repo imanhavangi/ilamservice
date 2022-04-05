@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import 'package:velocity_x/velocity_x.dart';
 
 class AboutUsScreen extends StatelessWidget {
@@ -19,6 +18,7 @@ class AboutUsScreen extends StatelessWidget {
       ),
       body: Container(
         height: double.infinity,
+        width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
@@ -50,92 +50,9 @@ class AboutUsScreen extends StatelessWidget {
                 ),
               ).pLTRB(20, 0, 20, 0),
             ),
-            const Directionality(
-              textDirection: TextDirection.rtl,
-              child: Text(
-                'تماس با ایلام سرویس',
-                style: TextStyle(
-                    fontFamily: 'iransans',
-                    fontSize: 26,
-                    color: Color(0xfff04a24)),
-              ),
-            ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.orange, shape: const StadiumBorder()),
-                onPressed: () async {
-                  await launch('https://wa.me/+989188421092');
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    FaIcon(
-                      FontAwesomeIcons.whatsapp,
-                    ),
-                    Text(
-                      'واتساپ',
-                      style: TextStyle(fontFamily: 'iransans'),
-                    ),
-                  ],
-                )),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.orange, shape: const StadiumBorder()),
-                onPressed: () async {
-                  await launch('https://www.instagram.com/ilam_service1400');
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    FaIcon(
-                      FontAwesomeIcons.instagram,
-                    ),
-                    Text(
-                      'اینستاگرام',
-                      style: TextStyle(fontFamily: 'iransans'),
-                    ),
-                  ],
-                )),
-            ElevatedButton(
-                onPressed: () async {
-                  await launch('https://t.me/faninajafi');
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.orange, shape: const StadiumBorder()),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    FaIcon(
-                      FontAwesomeIcons.telegram,
-                    ),
-                    Text(
-                      'تلگرام',
-                      style: TextStyle(fontFamily: 'iransans'),
-                    ),
-                  ],
-                )),
-            ElevatedButton(
-                onPressed: () async {
-                  await launch('tel: +989188421092');
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.orange, shape: const StadiumBorder()),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    FaIcon(
-                      FontAwesomeIcons.phone,
-                    ),
-                    Text(
-                      'همراه شرکت:   ۰۹۱۸۸۴۲۱۰۹۲',
-                      style: TextStyle(fontFamily: 'iransans'),
-                    ),
-                  ],
-                )),
           ]),
         ),
       ),
-      // bottomNavigationBar: _bottomNavigationBar,
     );
   }
 }
