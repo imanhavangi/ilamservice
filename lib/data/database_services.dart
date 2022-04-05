@@ -208,7 +208,6 @@ class DatabaseServices {
   static Future getNameAndLastNameFromServer() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString('token') ?? 's';
-    print(token);
     try {
       var r = await http
           .get(
@@ -227,12 +226,11 @@ class DatabaseServices {
       String lastName = r.body.substring(start + 11, end);
       start = lastName.indexOf('"');
       lastName = lastName.substring(start + 1, lastName.length - 4);
+      if (name.contains("NUL")) name = '';
+      if (lastName.contains("NUL")) lastName = '';
       sharedPreferences.setString('name', name);
       sharedPreferences.setString('lastName', lastName);
-      print(name);
-      print(lastName);
     } catch (e) {
-      print('object');
       log(e.toString());
     }
   }

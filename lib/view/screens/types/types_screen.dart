@@ -5,12 +5,10 @@ import 'package:ilamservice/data/service_product.dart';
 import 'package:ilamservice/view/screens/about_us/about_us_screen.dart';
 import 'package:ilamservice/view/screens/category_services/category_services_screen.dart';
 import 'package:ilamservice/view/screens/order/order_screen.dart';
-import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/products/products_screen.dart';
 import 'package:ilamservice/view/screens/profile/profile_screen.dart';
 import 'package:ilamservice/view/screens/rules/rules_screen.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class TypesScreen extends StatelessWidget {
