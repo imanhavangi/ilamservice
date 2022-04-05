@@ -55,7 +55,7 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
         color: Colors.black);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xff4e4f51),
+        backgroundColor: Colors.black87,
         centerTitle: true,
         title: Text(
           widget.service.name,

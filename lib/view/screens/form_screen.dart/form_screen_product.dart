@@ -36,7 +36,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xff4e4f51),
+        backgroundColor: Colors.black87,
         centerTitle: true,
         title: Text(
           widget.product.name,
