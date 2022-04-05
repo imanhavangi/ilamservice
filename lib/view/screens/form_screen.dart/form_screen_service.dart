@@ -203,7 +203,7 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                                 // color: Color(0xffc7c8ca),
                                 color: Colors.white,
                               ),
-                              hintText: 'زمان ارسال تعمیرکار',
+                              hintText: 'زمان ارسال متخصص',
                               hintStyle: TextStyle(
                                   fontFamily: 'iransans',
                                   color: Color(0xf4f4f4f4)),
