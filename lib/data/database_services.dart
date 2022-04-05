@@ -226,8 +226,16 @@ class DatabaseServices {
       String lastName = r.body.substring(start + 11, end);
       start = lastName.indexOf('"');
       lastName = lastName.substring(start + 1, lastName.length - 4);
-      if (name.contains("NUL")) name = '';
-      if (lastName.contains("NUL")) lastName = '';
+
+      if (name.contains('=>') && name.contains('NUL') && name.contains('\n')) {
+        name = '';
+      }
+
+      if (lastName.contains(">") &&
+          lastName.contains('NUL') &&
+          lastName.contains('\n')) {
+        lastName = '';
+      }
       sharedPreferences.setString('name', name);
       sharedPreferences.setString('lastName', lastName);
     } catch (e) {
