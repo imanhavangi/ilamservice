@@ -22,15 +22,13 @@ class _CategoryServicesScreenState extends State<CategoryServicesScreen> {
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.black87,
-            title: Center(
-                child: Text(
-              widget.superCategoryName,
-              style: const TextStyle(
-                  fontFamily: "iransans", color: Color(0xfff04a24)),
-            )),
-          ),
+              backgroundColor: Colors.black87,
+              centerTitle: true,
+              title: Text(
+                widget.superCategoryName,
+                style: const TextStyle(
+                    fontFamily: "iransans", color: Color(0xfff04a24)),
+              )),
           body: Container(
               // height: MediaQuery.of(context).size.height,
               // alignment: Alignment.center,
@@ -58,14 +56,13 @@ class _CategoryServicesScreenState extends State<CategoryServicesScreen> {
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            automaticallyImplyLeading: false,
             backgroundColor: Colors.black87,
-            title: Center(
-                child: Text(
+            centerTitle: true,
+            title: Text(
               widget.superCategoryName,
               style: const TextStyle(
                   fontFamily: "iransans", color: Color(0xfff04a24)),
-            )),
+            ),
           ),
           body: Container(
             // height: MediaQuery.of(context).size.height,
@@ -85,7 +82,7 @@ class _CategoryServicesScreenState extends State<CategoryServicesScreen> {
                 style: TextStyle(
                   fontFamily: 'IranSans',
                   fontSize: 20,
-                  color: Colors.white,
+                  color: Color(0xf4f4f4f4),
                 ),
               ),
             ),

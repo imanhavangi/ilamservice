@@ -28,7 +28,6 @@ class OrderScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           backgroundColor: Colors.black87,
           centerTitle: true,
           title: const Text(

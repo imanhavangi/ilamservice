@@ -38,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 },
                 cursorColor: const Color(0xfff04a24),
                 controller: _search,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: const TextStyle(color: Color(0xf4f4f4f4), fontSize: 16),
                 autofocus: true,
                 decoration: InputDecoration(
                   focusedBorder: const OutlineInputBorder(

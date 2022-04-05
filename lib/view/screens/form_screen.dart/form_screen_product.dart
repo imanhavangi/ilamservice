@@ -318,10 +318,13 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
             Center(
                 child: ElevatedButton(
               style: ElevatedButton.styleFrom(primary: const Color(0xfff04a24)),
-              onPressed: (address.text == '')
+              onPressed: (nameController.text == '' ||
+                      lastNameController.text == '' ||
+                      address.text == '')
                   ? () {
                       VxToast.show(context,
-                          msg: 'وارد کردن آدرس اجباری می‌باشد');
+                          msg:
+                              'وارد کردن نام، نام خانوادگی، و آدرس اجباری می‌باشد');
                     }
                   : () async {
                       FocusScope.of(context).unfocus();

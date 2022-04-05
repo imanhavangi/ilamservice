@@ -4,6 +4,7 @@ import 'package:ilamservice/data/database_services.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class OtpScreen2 extends StatefulWidget {
   final String phoneNumber;
@@ -79,7 +80,7 @@ class _OtpScreen2State extends State<OtpScreen2> {
                             // lineHeight: 10,
                             // lineStrokeCap: StrokeCap.round,
                             textStyle: const TextStyle(
-                                fontSize: 20, color: Colors.white),
+                                fontSize: 20, color: Color(0xf4f4f4f4)),
                             colorBuilder: FixedColorBuilder(
                                 Colors.white.withOpacity(0.3)),
                           ),
@@ -97,11 +98,17 @@ class _OtpScreen2State extends State<OtpScreen2> {
 
                                 String s =
                                     await DatabaseServices.login(code: _code);
+
                                 if (s == 'fail') {
                                   VxToast.show(context,
                                       msg:
                                           'کد وارد شده صحیح نمی‌باشد لطفا دوباره تلاش کنید');
                                 } else {
+                                  context.loaderOverlay.show();
+
+                                  await DatabaseServices
+                                      .getNameAndLastNameFromServer();
+                                  context.loaderOverlay.hide();
                                   Navigator.of(context).popAndPushNamed('se');
                                   // Navigator.of(context)
                                   //     .pushReplacementNamed('se');
@@ -183,14 +190,20 @@ class _OtpScreen2State extends State<OtpScreen2> {
                               if (_code.length == 4) {
                                 try {
                                   FocusScope.of(context).unfocus();
-
+                                  context.loaderOverlay.show();
                                   String s =
                                       await DatabaseServices.login(code: _code);
+                                  context.loaderOverlay.hide();
                                   if (s == 'fail') {
                                     VxToast.show(context,
                                         msg:
                                             'کد وارد شده صحیح نمی‌باشد لطفا دوباره تلاش کنید');
                                   } else {
+                                    context.loaderOverlay.show();
+
+                                    await DatabaseServices
+                                        .getNameAndLastNameFromServer();
+                                    context.loaderOverlay.hide();
                                     Navigator.of(context).popAndPushNamed('se');
                                     // Navigator.of(context)
                                     //     .pushReplacementNamed('se');

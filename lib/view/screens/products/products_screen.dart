@@ -33,7 +33,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 },
                 icon: const Icon(Icons.search)),
           ],
-          automaticallyImplyLeading: false,
           backgroundColor: Colors.black87,
           centerTitle: true,
           title: Text(

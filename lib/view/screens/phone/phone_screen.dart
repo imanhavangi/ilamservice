@@ -65,8 +65,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
                       color: Colors.white,
                     ),
                     hintText: 'شماره همراه',
-                    hintStyle:
-                        TextStyle(fontFamily: 'iransans', color: Colors.white),
+                    hintStyle: TextStyle(
+                        fontFamily: 'iransans', color: Color(0xf4f4f4f4)),
                   ),
                   keyboardType: TextInputType.phone,
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ilamservice/data/database_services.dart';
 import 'package:ilamservice/data/service_product.dart';
 import 'package:ilamservice/view/screens/about_us/about_us_screen.dart';
@@ -7,6 +8,7 @@ import 'package:ilamservice/view/screens/order/order_screen.dart';
 import 'package:ilamservice/view/screens/phone/phone_screen.dart';
 import 'package:ilamservice/view/screens/products/products_screen.dart';
 import 'package:ilamservice/view/screens/profile/profile_screen.dart';
+import 'package:ilamservice/view/screens/rules/rules_screen.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -21,145 +23,145 @@ class TypesScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: Drawer(
-          semanticLabel: 'something',
-          backgroundColor: Colors.grey.shade700,
-          child: ListView(
-            children: [
-              const SizedBox(
-                height: 70,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Color(0xfff04a24),
-                  ),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Text(
-                      'ایلام سرویس',
-                      style: TextStyle(
-                          fontFamily: 'iransans',
-                          fontStyle: FontStyle.italic,
-                          color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              ListTile(
-                title: const Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Text(
-                    'کد آخرین سفارش',
-                    style:
-                        TextStyle(color: Colors.white, fontFamily: 'iransans'),
-                  ),
-                ),
-                onTap: () async {
-                  ServiceOrProduct serviceOrProduct =
-                      await DatabaseServices.getLastOrder();
-                  String code = await DatabaseServices.getCode();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => OrderScreen(
-                                code: code,
-                                serviceOrProduct: serviceOrProduct,
-                              )));
-                },
-              ),
-              const Divider(
-                color: Colors.white,
-                height: 12,
-              ),
-              ListTile(
-                title: const Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Text(
-                    'درباره ما',
-                    style:
-                        TextStyle(color: Colors.white, fontFamily: 'iransans'),
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AboutUsScreen()));
-                },
-              ),
-              const Divider(
-                color: Colors.white,
-                height: 12,
-              ),
-              ListTile(
-                title: const Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Text(
-                    'پروفایل',
-                    style:
-                        TextStyle(color: Colors.white, fontFamily: 'iransans'),
-                  ),
-                ),
-                onTap: () async {
-                  context.loaderOverlay.show();
-                  String phoneNum = await DatabaseServices.getPhone();
-                  String name = await DatabaseServices.getName();
-                  String lastName = await DatabaseServices.getLastName();
-                  context.loaderOverlay.hide();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProfileScreen(
-                                name: name,
-                                lastName: lastName,
-                                phoneNumber: phoneNum,
-                              )));
-                },
-              ),
-              const Divider(
-                color: Colors.white,
-                height: 12,
-              ),
-              ListTile(
-                title: const Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Text(
-                    'خروج از حساب کاربری',
-                    style:
-                        TextStyle(color: Colors.white, fontFamily: 'iransans'),
-                  ),
-                ),
-                onTap: () async {
-                  context.loaderOverlay.show();
-                  SharedPreferences preferences =
-                      await SharedPreferences.getInstance();
-                  preferences.setString('mobile', '');
-                  preferences.setString('token', '');
-                  context.loaderOverlay.hide();
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => const PhoneScreen(
-                              si: "",
-                            )),
-                    ModalRoute.withName('fi'),
-                  );
-                },
-              ),
-              const Divider(
-                color: Colors.white,
-                height: 12,
-              ),
-            ],
-          ),
-        ),
+        // drawer: Drawer(
+        //   semanticLabel: 'something',
+        //   backgroundColor: Colors.grey.shade700,
+        //   child: ListView(
+        //     children: [
+        //       const SizedBox(
+        //         height: 70,
+        //         child: DrawerHeader(
+        //           decoration: BoxDecoration(
+        //             color: Color(0xfff04a24),
+        //           ),
+        //           child: Directionality(
+        //             textDirection: TextDirection.rtl,
+        //             child: Text(
+        //               'ایلام سرویس',
+        //               style: TextStyle(
+        //                   fontFamily: 'iransans',
+        //                   fontStyle: FontStyle.italic,
+        //                   color: Colors.white),
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //       ListTile(
+        //         title: const Directionality(
+        //           textDirection: TextDirection.rtl,
+        //           child: Text(
+        //             'کد آخرین سفارش',
+        //             style: TextStyle(
+        //                 color: Color(0xf4f4f4f4), fontFamily: 'iransans'),
+        //           ),
+        //         ),
+        //         onTap: () async {
+        //           ServiceOrProduct serviceOrProduct =
+        //               await DatabaseServices.getLastOrder();
+        //           String code = await DatabaseServices.getCode();
+        //           Navigator.push(
+        //               context,
+        //               MaterialPageRoute(
+        //                   builder: (context) => OrderScreen(
+        //                         code: code,
+        //                         serviceOrProduct: serviceOrProduct,
+        //                       )));
+        //         },
+        //       ),
+        //       const Divider(
+        //         color: Colors.white,
+        //         height: 12,
+        //       ),
+        //       ListTile(
+        //         title: const Directionality(
+        //           textDirection: TextDirection.rtl,
+        //           child: Text(
+        //             'درباره ما',
+        //             style: TextStyle(
+        //                 color: Color(0xf4f4f4f4), fontFamily: 'iransans'),
+        //           ),
+        //         ),
+        //         onTap: () {
+        //           Navigator.push(
+        //               context,
+        //               MaterialPageRoute(
+        //                   builder: (context) => const AboutUsScreen()));
+        //         },
+        //       ),
+        //       const Divider(
+        //         color: Colors.white,
+        //         height: 12,
+        //       ),
+        //       ListTile(
+        //         title: const Directionality(
+        //           textDirection: TextDirection.rtl,
+        //           child: Text(
+        //             'پروفایل',
+        //             style: TextStyle(
+        //                 color: Color(0xf4f4f4f4), fontFamily: 'iransans'),
+        //           ),
+        //         ),
+        //         onTap: () async {
+        //           context.loaderOverlay.show();
+        //           String phoneNum = await DatabaseServices.getPhone();
+        //           String name = await DatabaseServices.getName();
+        //           String lastName = await DatabaseServices.getLastName();
+        //           context.loaderOverlay.hide();
+        //           Navigator.push(
+        //               context,
+        //               MaterialPageRoute(
+        //                   builder: (context) => ProfileScreen(
+        //                         name: name,
+        //                         lastName: lastName,
+        //                         phoneNumber: phoneNum,
+        //                       )));
+        //         },
+        //       ),
+        //       const Divider(
+        //         color: Colors.white,
+        //         height: 12,
+        //       ),
+        //       ListTile(
+        //         title: const Directionality(
+        //           textDirection: TextDirection.rtl,
+        //           child: Text(
+        //             'خروج از حساب کاربری',
+        //             style: TextStyle(
+        //                 color: Color(0xf4f4f4f4), fontFamily: 'iransans'),
+        //           ),
+        //         ),
+        //         onTap: () async {
+        //           context.loaderOverlay.show();
+        //           SharedPreferences preferences =
+        //               await SharedPreferences.getInstance();
+        //           preferences.setString('mobile', '');
+        //           preferences.setString('token', '');
+        //           context.loaderOverlay.hide();
+        //           Navigator.pushAndRemoveUntil(
+        //             context,
+        //             MaterialPageRoute(
+        //                 builder: (BuildContext context) => const PhoneScreen(
+        //                       si: "",
+        //                     )),
+        //             ModalRoute.withName('fi'),
+        //           );
+        //         },
+        //       ),
+        //       const Divider(
+        //         color: Colors.white,
+        //         height: 12,
+        //       ),
+        //     ],
+        //   ),
+        // ),
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              _scaffoldKey.currentState!.openDrawer();
-            },
-          ),
+          // leading: IconButton(
+          //   icon: const Icon(Icons.menu),
+          //   onPressed: () {
+          //     _scaffoldKey.currentState!.openDrawer();
+          //   },
+          // ),
           backgroundColor: Colors.black87,
           centerTitle: true,
           title: const Text(
@@ -399,6 +401,89 @@ class TypesScreen extends StatelessWidget {
                   }).make(),
                 ],
               ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 80,
+          child: BottomNavigationBar(
+            onTap: (index) async {
+              switch (index) {
+                case 0:
+                  context.loaderOverlay.show();
+                  String phoneNum = await DatabaseServices.getPhone();
+                  String name = await DatabaseServices.getName();
+                  String lastName = await DatabaseServices.getLastName();
+                  context.loaderOverlay.hide();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfileScreen(
+                                name: name,
+                                lastName: lastName,
+                                phoneNumber: phoneNum,
+                              )));
+                  break;
+                case 1:
+                  ServiceOrProduct serviceOrProduct =
+                      await DatabaseServices.getLastOrder();
+                  String code = await DatabaseServices.getCode();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OrderScreen(
+                                code: code,
+                                serviceOrProduct: serviceOrProduct,
+                              )));
+                  break;
+                case 3:
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AboutUsScreen()));
+                  break;
+                case 4:
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RulesScreen()));
+                  break;
+              }
+            },
+            currentIndex: 2,
+            selectedItemColor: const Color(0xfff04a24),
+            unselectedItemColor: const Color(0xf4f4f4f4),
+            iconSize: 40,
+            showUnselectedLabels: true,
+            selectedLabelStyle: const TextStyle(
+                fontFamily: 'iransans', fontWeight: FontWeight.bold),
+            unselectedLabelStyle: const TextStyle(
+              fontFamily: 'iransans',
+            ),
+            items: const [
+              BottomNavigationBarItem(
+                  backgroundColor: Colors.black45,
+                  icon: Icon(FontAwesomeIcons.solidAddressCard),
+                  label: 'پروفایل'),
+              BottomNavigationBarItem(
+                  backgroundColor: Colors.black45,
+                  icon: Icon(FontAwesomeIcons.fileSignature),
+                  label: 'کد سفارش'),
+              BottomNavigationBarItem(
+                  backgroundColor: Colors.black45,
+                  icon: ImageIcon(
+                    AssetImage('assets/icon.png'),
+                    color: Color(0xfff04a24),
+                  ),
+                  label: 'ایلام سرویس'),
+              BottomNavigationBarItem(
+                  backgroundColor: Colors.black45,
+                  icon: Icon(FontAwesomeIcons.info),
+                  label: 'درباره ما'),
+              BottomNavigationBarItem(
+                  backgroundColor: Colors.black45,
+                  icon: Icon(FontAwesomeIcons.book),
+                  label: 'قوانین'),
             ],
           ),
         ),

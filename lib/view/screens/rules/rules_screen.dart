@@ -8,11 +8,11 @@ class RulesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xff4e4f51),
+          backgroundColor: Colors.black87,
           centerTitle: true,
           title: const Text(
             'قوانین و مقررات',
-            style: TextStyle(fontFamily: 'iransans'),
+            style: TextStyle(fontFamily: 'iransans', color: Color(0xfff04a24)),
           ),
         ),
         body: Container(
@@ -143,7 +143,8 @@ class RulesScreen extends StatelessWidget {
 ۳-۱۲- کاربر می‌پذیرد هر گونه رویه، اشکال، عبارات مبین تایید و اعلام قبولی و تصدیق داده پیام‌های صادره از طرف ایلام سرویس به منزله امضا الکترونیکی و قبولی محسوب می‌شود و هر گونه ادعایی نسبت به امضا و قبولی مذکور غیر قابل استماع و مردود است.
 ۴-۱۲- کاربر با عضویت در سرویس ایلام سرویس قصد و اراده خود را نسبت به پذیرش انعقاد هرگونه اقدام و عمل حقوقی از جمله عقود و معاملات از راه دور و از طریق سیستم رایانه‌ای و الکترونیکی اعلام می‌کند.
 """,
-                  style: TextStyle(fontFamily: 'iransans', color: Colors.white),
+                  style: TextStyle(
+                      fontFamily: 'iransans', color: Color(0xf4f4f4f4)),
                 ).pLTRB(20, 0, 20, 0),
               ),
             )));

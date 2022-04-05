@@ -46,7 +46,7 @@ class AboutUsScreen extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'iransans',
                   fontSize: 14,
-                  color: Colors.white,
+                  color: Color(0xf4f4f4f4),
                 ),
               ).pLTRB(20, 0, 20, 0),
             ),

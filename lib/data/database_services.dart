@@ -205,6 +205,38 @@ class DatabaseServices {
     return lastName;
   }
 
+  static Future getNameAndLastNameFromServer() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String token = sharedPreferences.getString('token') ?? 's';
+    print(token);
+    try {
+      var r = await http
+          .get(
+            Uri.parse(
+                'http://ilamservices.ir/data/getprofile.php?api_key=iZiOAbUJweieAcOQgwmlPH5OQKIQR9eLzGh9n8Vn&token=$token'),
+          )
+          .timeout(const Duration(seconds: 20));
+
+      int start = r.body.indexOf('["name"]');
+      int end = r.body.indexOf('[0]');
+      String name = r.body.substring(start + 8, end);
+      start = name.indexOf('"');
+      name = name.substring(start + 1, name.length - 4);
+      start = r.body.indexOf('["family"]');
+      end = r.body.indexOf('[2]');
+      String lastName = r.body.substring(start + 11, end);
+      start = lastName.indexOf('"');
+      lastName = lastName.substring(start + 1, lastName.length - 4);
+      sharedPreferences.setString('name', name);
+      sharedPreferences.setString('lastName', lastName);
+      print(name);
+      print(lastName);
+    } catch (e) {
+      print('object');
+      log(e.toString());
+    }
+  }
+
   static Future<List<ServiceOrProduct>> getChildServicesOfParent(
       ServiceOrProduct parent) async {
     List<ServiceOrProduct> res = [];

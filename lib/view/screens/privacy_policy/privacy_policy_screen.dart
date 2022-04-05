@@ -8,11 +8,11 @@ class PrivacyPolicysScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xff4e4f51),
+          backgroundColor: Colors.black87,
           centerTitle: true,
           title: const Text(
             'سیاست نامه حریم خصوصی',
-            style: TextStyle(fontFamily: 'iransans'),
+            style: TextStyle(fontFamily: 'iransans', color: Color(0xfff04a24)),
           ),
         ),
         body: Container(
@@ -37,7 +37,7 @@ class PrivacyPolicysScreen extends StatelessWidget {
 
 """,
                       style: TextStyle(
-                          fontFamily: 'iransans', color: Colors.white),
+                          fontFamily: 'iransans', color: Color(0xf4f4f4f4)),
                     ),
                     Text(
                       '۱. درباره ما',
@@ -59,7 +59,7 @@ class PrivacyPolicysScreen extends StatelessWidget {
 همچنین، به دلیل سیستم ارزیابی و امتیازدهی توسط مشتریان، کیفیت خدمات ارائه شده همواره رو به بهبود بوده و در نهایت خدمات با کیفیت بالاتری نسبت به میانگین کیفیت خدمات سنتی ارائه میشود.
 ایلام سرویس فرصت مناسبی برای نیروهای نظافتی، پرستاری، باغبانی، تعمیراتی و تاسیساتی است که در هر زمان و مکانی که مدنظرشان است، به کسب درآمد بپردازند.""",
                       style: TextStyle(
-                          fontFamily: 'iransans', color: Colors.white),
+                          fontFamily: 'iransans', color: Color(0xf4f4f4f4)),
                     ),
                     Text(
                       '۲. برنامه',
@@ -72,7 +72,7 @@ class PrivacyPolicysScreen extends StatelessWidget {
                     Text(
                       """نرم افزار ایلام سرویس حاوی برنامه های تعمیراتی، خدماتی، ساختمانی، فروشگاهی است که کاربر با کلیک بر روی هرکدام وارد محیط آن میشود و از آیکون های طراحی شده درخواست خود را برای ایلام سرویس ارسال میکند""",
                       style: TextStyle(
-                          fontFamily: 'iransans', color: Colors.white),
+                          fontFamily: 'iransans', color: Color(0xf4f4f4f4)),
                     ),
                     Text(
                       '۳. کدام اطلاعات توسط ایلام سرویس جمع‌آوری می‌شود؟',
@@ -87,7 +87,7 @@ class PrivacyPolicysScreen extends StatelessWidget {
                       """۱. شماره همراه:از شماره همراه برای تماس گرفتن با کاربر جهت انجام خدمت مورد نظر و درخواستی از طرف کاربر استفاده میشود و ایلام سرویس متعهد میشود که شماره کاربر را در اختیار شخص ثالث قرار ندهد
 ۲. آدرس:از آدرس جهت انجام سفارش یا درخواست کاربر بابت تعمیر لوازم خانگی و حضور متخصص در محل استفاده میشود و ایلام سرویس متعهد میشود آدرس کاربر را در اختیار شخص ثالث قرار ندهد""",
                       style: TextStyle(
-                          fontFamily: 'iransans', color: Colors.white),
+                          fontFamily: 'iransans', color: Color(0xf4f4f4f4)),
                     ),
                   ],
                 ).pLTRB(20, 0, 20, 0),

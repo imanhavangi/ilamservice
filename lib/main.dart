@@ -19,7 +19,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // d = await DatabaseServices.getChildServicesOfParent(3);
   s = await SmsAutoFill().getAppSignature;
-
   // print('App Signature:     ' + s);
   loggedIn = await DatabaseServices.isLoggedIn();
   phoneNumber = await DatabaseServices.getPhone();

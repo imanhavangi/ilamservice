@@ -121,7 +121,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                             controller: nameController,
                             textDirection: TextDirection.rtl,
                             style: const TextStyle(
-                                color: Colors.white, fontFamily: 'iransans'),
+                                color: Color(0xf4f4f4f4),
+                                fontFamily: 'iransans'),
                             decoration: const InputDecoration(
                               hintTextDirection: TextDirection.rtl,
                               prefixIcon: Icon(
@@ -131,7 +132,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                               ),
                               hintText: 'نام',
                               hintStyle: TextStyle(
-                                  fontFamily: 'iransans', color: Colors.white),
+                                  fontFamily: 'iransans',
+                                  color: Color(0xf4f4f4f4)),
                             ),
                             // keyboardType: TextInputType.phone,
                           ),
@@ -145,7 +147,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                             controller: lastNameController,
                             textDirection: TextDirection.rtl,
                             style: const TextStyle(
-                                color: Colors.white, fontFamily: 'iransans'),
+                                color: Color(0xf4f4f4f4),
+                                fontFamily: 'iransans'),
                             decoration: const InputDecoration(
                               hintTextDirection: TextDirection.rtl,
                               prefixIcon: Icon(
@@ -155,7 +158,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                               ),
                               hintText: 'نام خانوادگی',
                               hintStyle: TextStyle(
-                                  fontFamily: 'iransans', color: Colors.white),
+                                  fontFamily: 'iransans',
+                                  color: Color(0xf4f4f4f4)),
                             ),
                             // keyboardType: TextInputType.phone,
                           ),
@@ -186,7 +190,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                             },
                             controller: title,
                             style: const TextStyle(
-                                color: Colors.white, fontFamily: 'iransans'),
+                                color: Color(0xf4f4f4f4),
+                                fontFamily: 'iransans'),
                             textDirection: TextDirection.rtl,
                             decoration: const InputDecoration(
                               hintTextDirection: TextDirection.rtl,
@@ -200,7 +205,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                               ),
                               hintText: 'زمان ارسال تعمیرکار',
                               hintStyle: TextStyle(
-                                  fontFamily: 'iransans', color: Colors.white),
+                                  fontFamily: 'iransans',
+                                  color: Color(0xf4f4f4f4)),
                             ),
                             // keyboardType: TextInputType.phone,
                           ),
@@ -213,7 +219,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                           child: TextFormField(
                             controller: description,
                             style: const TextStyle(
-                                color: Colors.white, fontFamily: 'iransans'),
+                                color: Color(0xf4f4f4f4),
+                                fontFamily: 'iransans'),
                             textDirection: TextDirection.rtl,
                             decoration: const InputDecoration(
                               hintTextDirection: TextDirection.rtl,
@@ -224,7 +231,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                               ),
                               hintText: 'توضیحات',
                               hintStyle: TextStyle(
-                                  fontFamily: 'iransans', color: Colors.white),
+                                  fontFamily: 'iransans',
+                                  color: Color(0xf4f4f4f4)),
                             ),
                             // keyboardType: TextInputType.phone,
                           ),
@@ -237,7 +245,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                           child: TextFormField(
                             controller: brand,
                             style: const TextStyle(
-                                color: Colors.white, fontFamily: 'iransans'),
+                                color: Color(0xf4f4f4f4),
+                                fontFamily: 'iransans'),
                             textDirection: TextDirection.rtl,
                             decoration: const InputDecoration(
                               hintTextDirection: TextDirection.rtl,
@@ -248,7 +257,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                               ),
                               hintText: 'نام برند و مدل',
                               hintStyle: TextStyle(
-                                  fontFamily: 'iransans', color: Colors.white),
+                                  fontFamily: 'iransans',
+                                  color: Color(0xf4f4f4f4)),
                             ),
                             // keyboardType: TextInputType.phone,
                           ),
@@ -261,7 +271,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                           child: TextFormField(
                             controller: address,
                             style: const TextStyle(
-                                color: Colors.white, fontFamily: 'iransans'),
+                                color: Color(0xf4f4f4f4),
+                                fontFamily: 'iransans'),
                             textDirection: TextDirection.rtl,
                             decoration: const InputDecoration(
                               hintTextDirection: TextDirection.rtl,
@@ -272,7 +283,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                               ),
                               hintText: 'آدرس',
                               hintStyle: TextStyle(
-                                  fontFamily: 'iransans', color: Colors.white),
+                                  fontFamily: 'iransans',
+                                  color: Color(0xf4f4f4f4)),
                             ),
                             // keyboardType: TextInputType.phone,
                           ),
@@ -331,11 +343,14 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                             child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               primary: const Color(0xfff04a24)),
-                          onPressed: ((title.text == '' || address.text == ''))
+                          onPressed: ((nameController.text == '' ||
+                                  lastNameController.text == '' ||
+                                  title.text == '' ||
+                                  address.text == ''))
                               ? () {
                                   VxToast.show(context,
                                       msg:
-                                          'مقادیر زمان ارسال تعمیر‌کار، و آدرس اجباری می‌باشند');
+                                          'مقادیر نام و نام خانوادگی، زمان ارسال تعمیر‌کار، و آدرس اجباری می‌باشند');
                                 }
                               : () async {
                                   FocusScope.of(context).unfocus();
