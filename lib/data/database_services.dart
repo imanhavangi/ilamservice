@@ -307,6 +307,14 @@ class DatabaseServices {
                 ServiceOrProduct tmp = res[counter];
                 res[counter++] = res[i];
                 res[i] = tmp;
+              } else if (res[i].name.contains('پکیج')) {
+                ServiceOrProduct tmp = res[counter];
+                res[counter++] = res[i];
+                res[i] = tmp;
+              } else if (res[i].name.contains('جاروبرقی')) {
+                ServiceOrProduct tmp = res[counter];
+                res[counter++] = res[i];
+                res[i] = tmp;
               }
             }
           }
