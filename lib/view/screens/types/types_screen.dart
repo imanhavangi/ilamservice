@@ -232,7 +232,9 @@ class TypesScreen extends StatelessWidget {
                   ).click(() async {
                     context.loaderOverlay.show();
                     List<ServiceOrProduct> list =
-                        await DatabaseServices.getChildServicesOfRepair();
+                        await DatabaseServices.getChildServicesOfParent(
+                            ServiceOrProduct(
+                                type: 0, id: 3, fatherId: 3, name: ''));
                     context.loaderOverlay.hide();
                     Navigator.push(
                         context,

@@ -287,6 +287,29 @@ class DatabaseServices {
               price: int.parse(i['price']),
             ));
           }
+          if (parent.fatherId == 3) {
+            //repair
+            int counter = 0;
+            for (int i = 0; i < res.length; i++) {
+              if (res[i].name.contains('کولر')) {
+                ServiceOrProduct tmp = res[counter];
+                res[counter++] = res[i];
+                res[i] = tmp;
+              } else if (res[i].name.contains('آبگرمکن')) {
+                ServiceOrProduct tmp = res[counter];
+                res[counter++] = res[i];
+                res[i] = tmp;
+              } else if (res[i].name.contains('یخچال')) {
+                ServiceOrProduct tmp = res[counter];
+                res[counter++] = res[i];
+                res[i] = tmp;
+              } else if (res[i].name.contains('لباسشویی')) {
+                ServiceOrProduct tmp = res[counter];
+                res[counter++] = res[i];
+                res[i] = tmp;
+              }
+            }
+          }
         }
       }
 
